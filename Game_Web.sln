@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36414.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Game_Web\Presentation.csproj", "{0355ACFC-4299-449E-8B8D-A2625D1752DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Data_Layer\Logic.csproj", "{85A9F35A-C745-428D-8813-BDFA87207EB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL_Layer\DAL.csproj", "{6A2FEFA8-89AD-4729-AA36-CDD851B7B7E6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0355ACFC-4299-449E-8B8D-A2625D1752DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0355ACFC-4299-449E-8B8D-A2625D1752DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0355ACFC-4299-449E-8B8D-A2625D1752DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0355ACFC-4299-449E-8B8D-A2625D1752DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85A9F35A-C745-428D-8813-BDFA87207EB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85A9F35A-C745-428D-8813-BDFA87207EB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85A9F35A-C745-428D-8813-BDFA87207EB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85A9F35A-C745-428D-8813-BDFA87207EB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A2FEFA8-89AD-4729-AA36-CDD851B7B7E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A2FEFA8-89AD-4729-AA36-CDD851B7B7E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A2FEFA8-89AD-4729-AA36-CDD851B7B7E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A2FEFA8-89AD-4729-AA36-CDD851B7B7E6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {06CE475D-D200-4F4F-BA14-BB7203458728}
+	EndGlobalSection
+EndGlobal

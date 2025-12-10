@@ -1,0 +1,24 @@
+﻿@page
+@model DetailsModel
+@{
+    ViewData["Title"] = "Game Details";
+}
+
+<link rel="stylesheet" href="~/css/Details.css" />
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@Model.Game.Name - Details</title>
+</head>
+<body>
+    <h1>@Model.Game.Name</h1>
+    <img src="@Model.Game.Picture" alt="@Model.Game.Name" style="width:300px;" />
+    <p><strong>Category:</strong> @Model.Game.Category</p>
+    <p><strong>Description:</strong> @Model.Game.Description</p>
+
+    <a asp-controller="Games" asp-action="Index">Back to List</a>
+</body>
+</html>
+
+

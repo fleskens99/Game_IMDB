@@ -1,0 +1,130 @@
+﻿/* Index page — grid + cards
+   This file is page-specific. It intentionally avoids global selectors. */
+
+/* Page wrapper reuse (keeps Add / Index look consistent) */
+.add-game-page {
+    max-width: 980px;
+    width: 100%;
+    margin: 1.25rem auto;
+    padding: 1.25rem;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(6px) saturate(1.05);
+    overflow: hidden;
+    min-height: calc(100vh - 120px);
+}
+
+    /* Page-header scoped to Index page */
+    .add-game-page .title {
+        margin-bottom: 0.6rem;
+    }
+
+        .add-game-page .title > .title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.2px;
+        }
+
+    .add-game-page .subtitle {
+        color: var(--muted);
+        font-size: 0.92rem;
+    }
+
+/* Grid: 1 -> 2 -> 3 */
+.games-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(1, 1fr);
+    align-items: start;
+}
+
+@media (min-width: 700px) {
+    .games-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1000px) {
+    .games-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Card */
+.game-card {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255,255,255,0.03);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    box-shadow: 0 6px 20px rgba(16,6,30,0.25);
+}
+
+/* Image preview */
+.preview {
+    width: 160px;
+    min-width: 160px;
+    height: 120px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255,255,255,0.03);
+    flex-shrink: 0;
+}
+
+    .preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+/* Card content */
+.card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.card-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+.card-meta .badge { /* leave badge in site.css, but this refines layout context */
+    margin-bottom: 0.25rem;
+}
+
+.card-desc {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+}
+
+/* small screen adjustments */
+@media (max-width: 520px) {
+    .preview {
+        width: 110px;
+        min-width: 110px;
+        height: 80px;
+    }
+
+    .game-card {
+        padding: .75rem;
+        gap: .6rem;
+    }
+}

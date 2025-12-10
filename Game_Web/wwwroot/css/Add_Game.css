@@ -1,0 +1,150 @@
+﻿/* Add Game page — form and preview
+   Page-scoped; no global selectors. */
+
+/* Reuse same page wrapper visual */
+.add-game-page {
+    max-width: 980px;
+    width: 100%;
+    margin: 1.25rem auto;
+    padding: 1.25rem;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(6px) saturate(1.05);
+    overflow: hidden;
+    min-height: calc(100vh - 120px);
+}
+
+    /* Header scoped to Add page to avoid layout collision */
+    .add-game-page .header {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .add-game-page .title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: 0.2px;
+    }
+
+    .add-game-page .subtitle {
+        color: var(--muted);
+        font-size: 0.92rem;
+    }
+
+    /* Form layout */
+    .add-game-page .add-game-form {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.9rem;
+    }
+
+@media (min-width: 820px) {
+    .add-game-page .add-game-form {
+        grid-template-columns: 1fr 360px;
+        align-items: start;
+    }
+}
+
+.add-game-page .side-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255,255,255,0.03);
+}
+
+/* Form controls */
+.add-game-page .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+    .add-game-page .form-group label {
+        font-size: 0.88rem;
+        color: var(--muted);
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+
+.add-game-page input[type="text"],
+.add-game-page input[type="url"],
+.add-game-page input[type="number"],
+.add-game-page select,
+.add-game-page textarea,
+.add-game-page input[type="date"] {
+    background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 0.7rem 0.9rem;
+    border-radius: 12px;
+    min-height: var(--touch-size);
+    font-size: 0.98rem;
+    outline: none;
+    transition: box-shadow .18s ease, transform .12s ease, border-color .12s ease;
+}
+
+.add-game-page textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+    .add-game-page input:focus,
+    .add-game-page select:focus,
+    .add-game-page textarea:focus {
+        box-shadow: 0 6px 18px rgba(124,58,237,0.18), 0 1px 0 2px rgba(163,113,255,0.06) inset;
+        border-color: var(--accent-1);
+        transform: translateY(-1px);
+    }
+
+/* File input + preview */
+.add-game-page .file-input {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+    .add-game-page .file-input button {
+        padding: 0.55rem 0.85rem;
+        border-radius: 10px;
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+        color: white;
+        border: none;
+        min-height: 44px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .add-game-page .file-input input[type="file"] {
+        color: var(--muted);
+        font-size: 0.95rem;
+    }
+
+/* Add page preview (smaller than index preview) */
+.add-game-page .preview {
+    border-radius: 12px;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.04);
+    padding: .75rem;
+    display: flex;
+    gap: .75rem;
+    align-items: center;
+}
+
+    .add-game-page .preview img {
+        width: 84px;
+        height: 84px;
+        object-fit: cover;
+        border-radius: 8px;
+        flex-shrink: 0;
+    }
+
+/* Hint */
+.add-game-page .hint {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
