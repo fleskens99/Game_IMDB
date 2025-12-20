@@ -36,9 +36,7 @@
                         <p class="card-desc">@game.Description</p>
 
                         <div class="row" style="margin-top:.6rem;">
-                            <form method="post">
-                                <button type="submit" href="/Details" asp-page="/Details" asp-route-id="@game.Id">Details</button>
-                            </form>
+                            <a asp-page="/Details" asp-route-id="@game.Id" class="btn">Details</a>
                         </div>
                     </div>
                 </article>

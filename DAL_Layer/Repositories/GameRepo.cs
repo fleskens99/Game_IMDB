@@ -22,7 +22,8 @@ namespace Repos
                     {
                         while (reader.Read())
                         {
-                            games.Add(new GameDTO
+                            games.Add
+                            (new GameDTO
                             {
                                 Id = reader.GetInt32("Id"),
                                 Name = reader.GetString("Name"),
@@ -59,8 +60,6 @@ namespace Repos
             cmd.Parameters.AddWithValue("@Name", game.Name);
             cmd.Parameters.AddWithValue("@Description", (object?)game.Description ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@Category", (object?)game.Category ?? DBNull.Value);
-
-            // Write BLOB correctly
             cmd.Parameters.Add("@Picture", MySqlDbType.LongBlob).Value =
                 (object?)game.Picture ?? DBNull.Value;
 
@@ -96,7 +95,7 @@ namespace Repos
                         : reader.GetString("Description"),
                     Picture = reader.IsDBNull(reader.GetOrdinal("Picture"))
                         ? null
-                        : (byte[])reader["Picture"]   // <-- READ BLOB AS BYTE[]
+                        : (byte[])reader["Picture"]  
                 };
             }
 

@@ -24,7 +24,7 @@ namespace MyApp.Web.Pages.Games
             public string Title { get; set; } = string.Empty;
             public string? Description { get; set; }
             public string Category { get; set; } = string.Empty;
-            public IFormFile? Picture { get; set; }
+            public byte[] Picture { get; set; }
         }
 
         public void OnGet() 
@@ -32,17 +32,15 @@ namespace MyApp.Web.Pages.Games
             
         }
 
-        public async Task<IActionResult> OnPostAsync(CancellationToken cancellationToken)
+        public async Task<IActionResult> OnPost(CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid) return Page();
 
-            byte[]? picture = null; // <-- byte[] instead of string
+            byte[]? picture = null;
 
             if (Input.Picture != null && Input.Picture.Length > 0)
             {
-                using var ms = new MemoryStream();
-                await Input.Picture.CopyToAsync(ms, cancellationToken);
-                picture = ms.ToArray(); // <-- raw bytes
+                picture = Input.Picture;
             }
 
             var dto = new GameDTO
@@ -50,7 +48,7 @@ namespace MyApp.Web.Pages.Games
                 Name = Input.Title.Trim(),
                 Description = Input.Description?.Trim(),
                 Category = Input.Category.Trim(),
-                Picture = picture // <-- now correct type (byte[])
+                Picture = picture 
             };
 
             try
@@ -60,7 +58,7 @@ namespace MyApp.Web.Pages.Games
             }
             catch (Exception ex)
             {
-                throw; // shows the real exception
+                throw; 
             }
         }
     }

@@ -4,7 +4,7 @@ using Entities;
 
 namespace Mapper
 {
-    public class GameDTOToEntity
+    public class GameDTOMapper
     {
         public Game Mapper(GameDTO gameDto)
         {
