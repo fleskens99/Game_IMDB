@@ -27,4 +27,14 @@ public class IndexModel : PageModel
     {
         return RedirectToPage("/Details");
     }
+    public IActionResult OnGetImage(int id)
+    {
+        var imageData = _gameRepo.GetImageBlob(id);
+
+        if (imageData == null || imageData.Length == 0)
+            return NotFound();
+
+        return File(imageData, "image/jpeg"); 
+    }
+
 }

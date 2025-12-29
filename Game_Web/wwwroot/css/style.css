@@ -1,6 +1,6 @@
 ﻿/* NAV ONLY — fully isolated */
 .Nav-bar {
-    background-color: purple;
+    background-color: #37353E;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -20,7 +20,7 @@
 }
 
 .Nav-center {
-    gap: 2rem;
+    gap: 4rem;
 }
 
 .Nav-logo {
@@ -37,11 +37,29 @@
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 8px;
-    transition: 0.2s;
+    transition: 0.2s ease;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.05rem;
 }
 
+    /* Hover — bigger + stays white */
+    .Nav-link:hover {
+        color: white;
+        text-decoration: none;
+        transform: scale(1.12); /* grows on hover */
+    }
+
+    /* Active page — underline + slightly bigger */
     .Nav-link.active {
-        border-bottom: 2px solid #a371ff;
+        border-bottom: 2px solid #D3DAD9; /* your requested color */
+        font-size: 1.12rem; /* slightly bigger */
+        text-decoration: none;
+        transform: scale(1.12); /* same size as hover */
+    }
+
+    .Nav-link.active {
+        border-bottom: 2px solid #D3DAD9;
         font-size: 1.1rem;
     }
 

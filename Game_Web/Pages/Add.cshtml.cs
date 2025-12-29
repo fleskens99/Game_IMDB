@@ -24,7 +24,7 @@ namespace MyApp.Web.Pages.Games
             public string Title { get; set; } = string.Empty;
             public string? Description { get; set; }
             public string Category { get; set; } = string.Empty;
-            public byte[] Picture { get; set; }
+            public IFormFile? Picture { get; set; }
         }
 
         public void OnGet() 
@@ -40,7 +40,9 @@ namespace MyApp.Web.Pages.Games
 
             if (Input.Picture != null && Input.Picture.Length > 0)
             {
-                picture = Input.Picture;
+                using var ms = new MemoryStream();
+                await Input.Picture.CopyToAsync(ms, cancellationToken);
+                picture = ms.ToArray();
             }
 
             var dto = new GameDTO
@@ -54,7 +56,7 @@ namespace MyApp.Web.Pages.Games
             try
             {
                 var newId = await _gameService.AddGame(dto, cancellationToken);
-                return RedirectToPage("/Games/Details", new { id = newId });
+                return RedirectToPage("/Index", new { id = newId });
             }
             catch (Exception ex)
             {

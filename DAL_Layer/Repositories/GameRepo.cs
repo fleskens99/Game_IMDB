@@ -101,5 +101,20 @@ namespace Repos
 
             return game!;
         }
+
+        public byte[] ? GetImageBlob(int id)
+        {
+            using var connection = new MySqlConnection(DatabaseConnectionString.ConnectionString);
+            connection.Open();
+
+            const string query = "SELECT Picture FROM game WHERE Id = @id";
+
+            using var cmd = new MySqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@id", id);
+
+            var result = cmd.ExecuteScalar();
+
+            return result == DBNull.Value ? null : (byte[])result;
+        }
     }
 }
