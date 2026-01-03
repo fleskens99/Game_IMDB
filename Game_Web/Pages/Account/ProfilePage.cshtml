@@ -1,0 +1,63 @@
+﻿@page
+@model Game_Web.Pages.Account.ProfilePageModel
+@{
+    ViewData["Title"] = "ProfilePage";
+}
+
+<link rel="stylesheet" href="~/css/Profile.css" />
+
+<div class="Acc-wrap">
+    <div class="Acc-hero">
+        <div class="Acc-heroCard">
+            <img class="Acc-avatar" src="@Url.Page("/Account/ProfileImage")" alt="Profile picture" />
+
+            <div class="Acc-heroInfo">
+                <div class="Acc-name">@Model.DisplayName</div>
+                <div class="Acc-email">@Model.Email</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="Acc-grid">
+        <section class="Acc-card">
+            <div class="Acc-cardTitle">Your information</div>
+
+            <div class="Acc-rows">
+                <div class="Acc-row">
+                    <div class="Acc-label">Name</div>
+                    <div class="Acc-value">@Model.DisplayName</div>
+                </div>
+
+                <div class="Acc-row">
+                    <div class="Acc-label">Email</div>
+                    <div class="Acc-value">@Model.Email</div>
+                </div>
+
+                <div class="Acc-row">
+                    <div class="Acc-label">User ID</div>
+                    <div class="Acc-value">@Model.UserId</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="Acc-card Acc-cardSmall">
+            <div class="Acc-cardTitle">Account</div>
+
+            <div class="Acc-pillRow">
+                <div class="Acc-pill">
+                    <div class="Acc-pillTop">Status</div>
+                    <div class="Acc-pillBottom">Active</div>
+                </div>
+
+                <div class="Acc-pill">
+                    <div class="Acc-pillTop">Signed in</div>
+                    <div class="Acc-pillBottom">Yes</div>
+                </div>
+            </div>
+
+            <div class="Acc-note">
+                Your profile picture keeps the default icon until you upload one.
+            </div>
+        </section>
+    </div>
+</div>

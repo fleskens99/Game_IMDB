@@ -30,7 +30,7 @@
             <div class="Nav-right">
                 @if (User.Identity?.IsAuthenticated ?? false)
                 {
-                    <a class="Nav-account" asp-page="/Account/Profile">
+                    <a class="Nav-account" asp-page="/Account/ProfilePage">
                         <img src="@Url.Page("/Account/ProfileImage")" class="Nav-accountIcon" />
                         <span class="Nav-accountName">@User.Identity!.Name</span>
                     </a>

@@ -1,9 +1,6 @@
-﻿/* NAV ONLY — fully isolated */
-
-.Nav-bar {
+﻿.Nav-bar {
     background-color: #37353E;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 0.75rem 2rem;
     position: fixed;
@@ -20,14 +17,26 @@
     align-items: center;
 }
 
+.Nav-left {
+    flex: 0 0 auto;
+}
+
 .Nav-center {
-    gap: 4rem;
+    flex: 1;
+    justify-content: flex-start;
+    gap: 7rem;
+    margin-left: 20rem;
+}
+
+.Nav-right {
+    margin-left: auto;
+    flex: 0 0 auto;
 }
 
 .Nav-logo {
     height: 40px;
 }
-/* Brand (logo + name) */
+
 .Nav-brand {
     display: flex;
     align-items: center;
@@ -48,12 +57,6 @@
     letter-spacing: 1px;
 }
 
-.Nav-siteName {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: white;
-}
-
 .Nav-link {
     color: white;
     padding: 0.5rem 1rem;
@@ -64,24 +67,17 @@
     font-size: 1.05rem;
 }
 
-    /* Hover — bigger + stays white */
     .Nav-link:hover {
         color: white;
         text-decoration: none;
-        transform: scale(1.12); /* grows on hover */
-    }
-
-    /* Active page — underline + slightly bigger */
-    .Nav-link.active {
-        border-bottom: 2px solid #D3DAD9; /* your requested color */
-        font-size: 1.12rem; /* slightly bigger */
-        text-decoration: none;
-        transform: scale(1.12); /* same size as hover */
+        transform: scale(1.12);
     }
 
     .Nav-link.active {
         border-bottom: 2px solid #D3DAD9;
         font-size: 1.1rem;
+        text-decoration: none;
+        transform: scale(1.12);
     }
 
 .Nav-account {
@@ -89,34 +85,44 @@
     align-items: center;
     gap: 0.6rem;
     text-decoration: none;
+    color: #D3DAD9;
+    transition: transform 0.2s ease;
 }
+
+    .Nav-account:hover {
+        transform: scale(1.12);
+        text-decoration: none;
+        color: #D3DAD9;
+    }
 
 .Nav-accountName {
     color: #D3DAD9;
-    font-weight: 700;
+    font-weight: 800;
+    text-decoration: none;
 }
 
+.Nav-accountIcon {
+    height: 36px;
+}
 
-/* Layout background wrapper — isolated */
 .Layout-background {
     background-color: #181C14;
     min-height: 100vh;
     width: 100%;
-    padding-top: 80px; /* space for navbar */
+    padding-top: 80px;
     overflow: auto;
 }
 
 .Layout-footer {
     width: 100%;
-    background: #000000; /* Black footer */
+    background: #000000;
     padding: 1.2rem 0;
     margin-top: 2rem;
 }
 
 .Layout-footer-content {
     text-align: center;
-    color: #D3DAD9; /* Matches your UI text color */
+    color: #D3DAD9;
     font-size: 0.9rem;
     opacity: 0.85;
 }
-
