@@ -52,10 +52,10 @@ namespace Repos
                 VALUES (@Name, @Description, @Category, @Picture);
             ";
 
-            await using MySqlConnection conn = new MySqlConnection(DatabaseConnectionString.ConnectionString);
-            await conn.OpenAsync(cancellationToken);
+            using MySqlConnection conn = new MySqlConnection(DatabaseConnectionString.ConnectionString);
+            await conn.OpenAsync(cancellationToken).ConfigureAwait(false);
 
-            await using var cmd = new MySqlCommand(sql, conn);
+            using var cmd = new MySqlCommand(sql, conn);
 
             cmd.Parameters.AddWithValue("@Name", game.Name);
             cmd.Parameters.AddWithValue("@Description", (object?)game.Description ?? DBNull.Value);
@@ -63,7 +63,7 @@ namespace Repos
             cmd.Parameters.Add("@Picture", MySqlDbType.LongBlob).Value =
                 (object?)game.Picture ?? DBNull.Value;
 
-            await cmd.ExecuteNonQueryAsync(cancellationToken);
+            await cmd.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
             return (int)cmd.LastInsertedId;
         }
 

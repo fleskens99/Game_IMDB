@@ -8,7 +8,7 @@
 
 <div class="rankings-layout">
     <div class="main-content">
-        <h2 class="section-title">Latest Game Rankings</h2>
+        <h2 class="section-title">All Games</h2>
 
         @if (Model.Games != null && Model.Games.Count > 0)
         {
@@ -16,32 +16,29 @@
                 @foreach (var game in Model.Games)
                 {
                     <article class="game-card">
-                        <div class="preview" aria-hidden="true">
-                            @if (game.Picture != null && game.Picture.Length > 0)
-                            {
-                                <img src="/Index?handler=Image&id=@game.Id" alt="Game Cover" />
-                            }
-                            else
-                            {
-                                <div class="preview-placeholder">
-                                    <span class="badge">No image</span>
+                        <a asp-page="/Details" asp-route-id="@game.Id" class="game-card-link">
+                            <div class="preview" aria-hidden="true">
+                                @if (game.Picture != null && game.Picture.Length > 0)
+                                {
+                                    <img src="/Index?handler=Image&id=@game.Id" alt="@game.Name cover" />
+                                }
+                                else
+                                {
+                                    <div class="preview-placeholder">No image</div>
+                                }
+                            </div>
+
+                            <div class="card-info">
+                                <div class="title-row">
+                                    <div class="card-title">@game.Name</div>
+                                    <div class="card-rating">4.3/5</div>
                                 </div>
-                            }
-                        </div>
 
-                        <div class="card-body">
-                            <div class="card-title">@game.Name</div>
-                            <div class="card-meta">
-                                <span class="badge">@game.Category</span>
+                                <div class="card-category">@game.Category</div>
                             </div>
-
-                            <p class="card-desc">@game.Description</p>
-
-                            <div class="row" style="margin-top:.6rem;">
-                                <a asp-page="/Details" asp-route-id="@game.Id" class="btn">Details</a>
-                            </div>
-                        </div>
+                        </a>
                     </article>
+
                 }
             </div>
         }

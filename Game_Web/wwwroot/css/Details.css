@@ -1,62 +1,137 @@
-﻿/* Styles specific to Details page (Detail.cshtml) */
+﻿/* Whole page wrapper */
+.details-page {
+    max-width: 1200px;
+    margin: 1.2rem auto;
+    padding: 0 1rem 2rem 1rem;
+    color: #D3DAD9;
+}
 
-.detail-page {
-    max-width: 980px;
+/* HERO */
+.details-hero {
     width: 100%;
-    margin: 1.25rem auto;
-    padding: 1.25rem;
-    border-radius: var(--radius-lg);
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    box-shadow: var(--shadow);
+    height: 340px;
+    border-radius: 14px;
     overflow: hidden;
-    min-height: calc(100vh - 120px);
+    background: #1D1616;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.35);
 }
 
-.detail-header {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.detail-title {
-    font-size: 1.4rem;
-    font-weight: 800;
-}
-
-.detail-body {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-}
-
-@media (min-width: 820px) {
-    .detail-body {
-        grid-template-columns: 320px 1fr;
-        align-items: start;
-    }
-}
-
-/* preview for details (bigger) */
-.detail-preview {
-    width: 100%;
-    height: 220px;
-    border-radius: 12px;
-    overflow: hidden;
-    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
-    border: 1px solid rgba(255,255,255,0.03);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-    .detail-preview img {
+    .details-hero img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        display: block;
     }
 
-.detail-meta {
-    color: var(--muted);
-    font-size: 0.95rem;
+.details-hero-placeholder {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    color: rgba(211,218,217,0.7);
+}
+
+/* GRID under hero */
+.details-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.2rem;
+    margin-top: 1.1rem;
+}
+
+/* Cards */
+.details-card {
+    background: #2F2F33;
+    border-radius: 14px;
+    padding: 1.3rem;
+    box-shadow: 0 12px 26px rgba(0,0,0,0.35);
+}
+
+/* Left card */
+.details-title {
+    font-size: 1.9rem;
+    font-weight: 900;
+    margin-bottom: 0.2rem;
+}
+
+.details-genre {
+    font-size: 1.05rem;
+    font-weight: 700;
+    opacity: 0.8;
+    margin-bottom: 1.2rem;
+}
+
+.details-desc {
+    line-height: 1.6;
+    opacity: 0.92;
+    margin: 0 0 1.2rem 0;
+}
+
+/* Back link */
+.details-back {
+    display: inline-block;
+    text-decoration: none;
+    color: #D3DAD9;
+    font-weight: 800;
+    opacity: 0.9;
+    transition: 0.15s ease;
+}
+
+    .details-back:hover {
+        opacity: 1;
+        transform: translateX(-2px);
+    }
+
+/* Right card title */
+.details-side-title {
+    font-size: 1.1rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+}
+
+/* Comments */
+.comment {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 0.75rem;
+    padding: 0.85rem 0;
+    border-top: 1px solid rgba(211,218,217,0.08);
+}
+
+    .comment:first-of-type {
+        border-top: none;
+        padding-top: 0;
+    }
+
+.avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(211,218,217,0.10);
+    color: #D3DAD9;
+    font-weight: 900;
+}
+
+.comment-name {
+    font-weight: 900;
+    margin-bottom: 0.25rem;
+}
+
+.comment-text {
+    opacity: 0.85;
+    line-height: 1.35;
+}
+
+/* Responsive */
+@media (max-width: 980px) {
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .details-hero {
+        height: 260px;
+    }
 }

@@ -1,150 +1,121 @@
-﻿/* Add Game page — form and preview
-   Page-scoped; no global selectors. */
-
-/* Reuse same page wrapper visual */
-.add-game-page {
-    max-width: 980px;
+﻿/* Page container */
+.AddGame-page {
     width: 100%;
-    margin: 1.25rem auto;
-    padding: 1.25rem;
-    border-radius: var(--radius-lg);
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(6px) saturate(1.05);
-    overflow: hidden;
-    min-height: calc(100vh - 120px);
+    max-width: 1300px; /* Wider container */
+    margin: 2rem auto;
+    padding: 2.5rem;
+    background: #44444E; /* Correct background */
+    color: #D3DAD9; /* Correct text color */
+    border-radius: 12px;
 }
 
-    /* Header scoped to Add page to avoid layout collision */
-    .add-game-page .header {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
-
-    .add-game-page .title {
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: #fff;
-        letter-spacing: 0.2px;
-    }
-
-    .add-game-page .subtitle {
-        color: var(--muted);
-        font-size: 0.92rem;
-    }
-
-    /* Form layout */
-    .add-game-page .add-game-form {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 0.9rem;
-    }
-
-@media (min-width: 820px) {
-    .add-game-page .add-game-form {
-        grid-template-columns: 1fr 360px;
-        align-items: start;
-    }
+/* Header */
+.AddGame-header {
+    margin-bottom: 1.5rem;
 }
 
-.add-game-page .side-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    padding: 1rem;
-    border-radius: var(--radius-sm);
-    border: 1px solid rgba(255,255,255,0.03);
+.AddGame-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #D3DAD9;
 }
 
-/* Form controls */
-.add-game-page .form-group {
+/* Form layout — now ONE COLUMN ONLY */
+.AddGame-form {
+    display: block; /* Removes the 2-column grid */
+}
+
+/* Left side spacing */
+.AddGame-left {
     display: flex;
     flex-direction: column;
-    gap: 0.45rem;
+    gap: 20px;
 }
 
-    .add-game-page .form-group label {
-        font-size: 0.88rem;
-        color: var(--muted);
-        font-weight: 600;
-        letter-spacing: 0.3px;
-    }
-
-.add-game-page input[type="text"],
-.add-game-page input[type="url"],
-.add-game-page input[type="number"],
-.add-game-page select,
-.add-game-page textarea,
-.add-game-page input[type="date"] {
-    background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.05);
-    padding: 0.7rem 0.9rem;
-    border-radius: 12px;
-    min-height: var(--touch-size);
-    font-size: 0.98rem;
-    outline: none;
-    transition: box-shadow .18s ease, transform .12s ease, border-color .12s ease;
-}
-
-.add-game-page textarea {
-    min-height: 140px;
-    resize: vertical;
-}
-
-    .add-game-page input:focus,
-    .add-game-page select:focus,
-    .add-game-page textarea:focus {
-        box-shadow: 0 6px 18px rgba(124,58,237,0.18), 0 1px 0 2px rgba(163,113,255,0.06) inset;
-        border-color: var(--accent-1);
-        transform: translateY(-1px);
-    }
-
-/* File input + preview */
-.add-game-page .file-input {
+/* Form groups */
+.AddGame-group {
     display: flex;
-    gap: 0.6rem;
-    align-items: center;
+    flex-direction: column;
+    gap: 0.4rem;
 }
 
-    .add-game-page .file-input button {
-        padding: 0.55rem 0.85rem;
-        border-radius: 10px;
-        background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-        color: white;
-        border: none;
-        min-height: 44px;
+    .AddGame-group label {
         font-weight: 600;
-        cursor: pointer;
+        color: #D3DAD9;
     }
 
-    .add-game-page .file-input input[type="file"] {
-        color: var(--muted);
-        font-size: 0.95rem;
-    }
-
-/* Add page preview (smaller than index preview) */
-.add-game-page .preview {
-    border-radius: 12px;
-    overflow: hidden;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border: 1px solid rgba(255,255,255,0.04);
-    padding: .75rem;
-    display: flex;
-    gap: .75rem;
-    align-items: center;
+/* Inputs */
+.AddGame-page input,
+.AddGame-page textarea {
+    background: #1D1616; /* Updated background */
+    border: 1px solid #5A5A65;
+    color: #D3DAD9;
+    border-radius: 8px;
+    padding: 0.7rem;
+    width: 100%;
 }
 
-    .add-game-page .preview img {
-        width: 84px;
-        height: 84px;
-        object-fit: cover;
-        border-radius: 8px;
-        flex-shrink: 0;
+    .AddGame-page input:focus,
+    .AddGame-page textarea:focus {
+        border-color: #8AB4FF;
+        outline: none;
     }
 
-/* Hint */
-.add-game-page .hint {
-    color: var(--muted);
+
+.AddGame-image-container {
+    width: 100%;
+}
+
+/* Clickable area */
+.AddGame-image-clickarea {
+    width: 100%;
+    height: 180px;
+    background: #1D1616; /* Updated background */
+    border: 2px dashed #5A5A65; /* Same border style */
+    border-radius: 8px; /* Matches input fields */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s ease;
+}
+
+    .AddGame-image-clickarea:hover {
+        background: #2A2020; /* Slightly lighter hover */
+        border-color: #8AB4FF;
+    }
+
+    /* Centered image */
+    .AddGame-image-clickarea img {
+        width: 120px;
+        height: 80px;
+        opacity: 0.8;
+    }
+
+/* Hint text */
+.AddGame-hint {
     font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+/* Buttons */
+.AddGame-buttons {
+    margin-top: 1rem;
+}
+
+.AddGame-buttons button {
+    width: 100%;                /* Full width */
+    background: #D3DAD9;        /* Light background */
+    color: #000000;             /* Black text */
+    border: none;
+    padding: 0.9rem;
+    border-radius: 8px;         /* Same rounded corners as fields */
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.AddGame-buttons button:hover {
+    background: #715A5A;        /* Hover color */
+    color: #D3DAD9;             /* Optional: keeps contrast readable */
 }

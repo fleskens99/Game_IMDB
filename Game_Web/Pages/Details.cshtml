@@ -6,24 +6,50 @@
 
 <link rel="stylesheet" href="~/css/Details.css" />
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>@Model.Game.Name - Details</title>
-</head>
-<body>
-    <h1>@Model.Game.Name</h1>
-    @if (Model.Game.Picture != null && Model.Game.Picture.Length > 0)
-    {
-        <img src="data:image/png;base64,@Convert.ToBase64String(Model.Game.Picture)"
-             alt="@Model.Game.Name"
-             style="width:300px;" />
-    }
-    <p><strong>Category:</strong> @Model.Game.Category</p>
-    <p><strong>Description:</strong> @Model.Game.Description</p>
+<div class="details-page">
+    <section class="details-hero">
+        @if (Model.Game.Picture != null && Model.Game.Picture.Length > 0)
+        {
+            <img src="data:image/png;base64,@Convert.ToBase64String(Model.Game.Picture)"
+                 alt="@Model.Game.Name cover" />
+        }
+        else
+        {
+            <div class="details-hero-placeholder">
+                No image
+            </div>
+        }
+    </section>
 
-    <a asp-controller="Games" asp-action="Index">Back to List</a>
-</body>
-</html>
+    <!-- CONTENT -->
+    <section class="details-grid">
 
+        <article class="details-card details-card--main">
+            <div class="details-title">@Model.Game.Name</div>
+            <div class="details-genre">Genre: @Model.Game.Category</div>
 
+            <p class="details-desc">
+                @Model.Game.Description
+            </p>
+        </article>
+        <aside class="details-card details-card--side">
+            <div class="details-side-title">User Comments</div>
+            <div class="comment">
+                <div class="avatar">J</div>
+                <div class="comment-body">
+                    <div class="comment-name">JohnDoe92</div>
+                    <div class="comment-text">Amazing graphics and immersive gameplay. Definitely a must-play!</div>
+                </div>
+            </div>
+
+            <div class="comment">
+                <div class="avatar">L</div>
+                <div class="comment-body">
+                    <div class="comment-name">LaraGamer</div>
+                    <div class="comment-text">The storyline kept me hooked for hours. Highly recommend!</div>
+                </div>
+            </div>
+        </aside>
+
+    </section>
+</div>

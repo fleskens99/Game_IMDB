@@ -1,0 +1,60 @@
+﻿@page
+@model Game_Web.Pages.Account.LoginModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Login";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Log In"]</title>
+
+    <link rel="stylesheet" href="~/css/Login.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body class="login-page">
+
+    <div class="login-layout">
+        <div class="brand">
+            <img src="~/uploads/Pictures/Controller.png" class="brand-logo" alt="Logo" />
+            <span class="brand-name">GameIMDB</span>
+        </div>
+
+        <section class="login-card">
+            <h2 class="login-title">Login</h2>
+
+            <form method="post" class="login-form">
+
+                <div class="field">
+                    <label class="field-label" asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" class="form-control field-input" placeholder="Enter your email" />
+                    <span asp-validation-for="Input.Email"></span>
+                </div>
+
+                <div class="field">
+                    <label class="field-label" asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" type="password" class="form-control field-input" placeholder="Enter your password" />
+                    <span asp-validation-for="Input.Password"></span>
+                </div>
+
+                <button type="submit" class="btn-login">Log In</button>
+
+                <div class="signup-row">
+                    <a class="signup-link" asp-page="/Account/Sign_up">Sign up</a>
+                </div>
+            </form>
+        </section>
+        <div class="back-row">
+            <a class="back-link" asp-page="/Index">
+                <span class="back-arrow" aria-hidden="true">←</span>
+                Back
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>

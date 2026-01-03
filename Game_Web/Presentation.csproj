@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\uploads\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DAL_Layer\DAL.csproj" />
     <ProjectReference Include="..\Data_Layer\Logic.csproj" />
   </ItemGroup>

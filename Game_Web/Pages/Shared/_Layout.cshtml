@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,8 +15,9 @@
     <header id="Nav-header">
         <nav class="Nav-bar">
             <div class="Nav-left">
-                <a class="Nav-account" asp-page="/Index">
-                    <img src="~/images/logo.png" class="Nav-logo" />
+                <a class="Nav-brand" asp-page="/Index">
+                    <img src="~/uploads/Pictures/Controller.png" class="Nav-logo" />
+                    <span class="Nav-title">GameIMDB</span>
                 </a>
             </div>
 
@@ -25,14 +28,24 @@
             </div>
 
             <div class="Nav-right">
-                <a class="Nav-account @IsActive("/Account")" asp-page="/Account">
-                    <img src="~/images/account.png" class="Nav-accountIcon" />
-                </a>
+                @if (User.Identity?.IsAuthenticated ?? false)
+                {
+                    <a class="Nav-account" asp-page="/Account/Profile">
+                        <img src="@Url.Page("/Account/ProfileImage")" class="Nav-accountIcon" />
+                        <span class="Nav-accountName">@User.Identity!.Name</span>
+                    </a>
+                }
+                else
+                {
+                    <a class="Nav-account @IsActive("/Login")" asp-page="/Account/Login">
+                        <img src="~/uploads/Pictures/Profile.png" class="Nav-accountIcon" />
+                    </a>
+                }
             </div>
+
         </nav>
     </header>
 
-    <!-- Layout background wrapper -->
     <div class="Layout-background">
         @RenderBody()
     </div>

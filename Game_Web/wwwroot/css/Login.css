@@ -1,0 +1,176 @@
+﻿:root {
+    --page-bg: #37353E;
+    --container: #D3DAD9;
+    --btn: #44444E;
+    --text: #37353E;
+}
+
+/* Page background */
+.login-page {
+    background: var(--page-bg);
+}
+
+/* Layout - higher up */
+.login-layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 4vh; /* higher up */
+    padding-bottom: 3vh;
+    gap: 6px; /* smaller space overall */
+}
+
+/* Logo ABOVE container - bigger + closer */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 2px; /* closer */
+}
+
+.brand-logo {
+    width: 96px; /* bigger logo */
+    height: 96px;
+    object-fit: contain;
+}
+
+.brand-name {
+    color: var(--container);
+    font-weight: 900;
+    font-size: 1.85rem;
+    letter-spacing: 0.3px;
+}
+
+/* Container */
+.login-card {
+    width: min(430px, 92vw);
+    background: var(--container);
+    border-radius: 18px;
+    padding: 24px 22px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+/* Title */
+.login-title {
+    margin: 0 0 12px 0; /* smaller gap under title */
+    text-align: center;
+    font-weight: 900;
+    color: var(--text);
+    font-size: 1.9rem;
+}
+
+/* Form */
+.login-form {
+    display: grid;
+    gap: 14px;
+}
+
+.field {
+    display: grid;
+    gap: 6px;
+}
+
+.field-label {
+    font-weight: 900;
+    color: var(--text);
+}
+
+/* Inputs (override Bootstrap focus blue) */
+.field-input {
+    border-radius: 14px;
+    padding: 12px 12px;
+    border: 1px solid rgba(55,53,62,0.25);
+    background: rgba(255,255,255,0.65);
+}
+
+    .field-input:focus {
+        border-color: rgba(68,68,78,0.85);
+        box-shadow: 0 0 0 4px rgba(68,68,78,0.20); /* no blue */
+    }
+
+/* IMPORTANT: remove Bootstrap blue focus ring from buttons/links */
+.btn-login:focus,
+.btn-login:focus-visible,
+.signup-link:focus,
+.signup-link:focus-visible,
+.back-link:focus,
+.back-link:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* --- LOGIN BUTTON --- */
+/* rounded + no weird corner boxes */
+.btn-login {
+    width: 100%;
+    border-radius: 14px;
+    padding: 12px 14px;
+    font-weight: 900;
+    cursor: pointer;
+    background: var(--btn);
+    color: var(--container);
+    border: 2px solid var(--btn);
+    transition: transform 0.16s ease, background-color 0.16s ease, color 0.16s ease;
+}
+
+    .btn-login:hover {
+        transform: scale(1.05); /* bigger */
+        background: var(--btn); /* stays #44444E */
+        filter: brightness(1.08); /* subtle pop */
+        color: var(--container);
+    }
+
+/* --- SIGN UP LINK (text only) --- */
+.signup-row {
+    text-align: center;
+    margin-top: 0px;
+}
+
+.signup-link {
+    display: inline-block;
+    font-weight: 900;
+    color: var(--text) !important; /* force no blue */
+    text-decoration: none !important;
+    background: transparent;
+    border: none;
+    transition: transform 0.16s ease, opacity 0.16s ease;
+}
+
+    .signup-link:hover {
+        transform: scale(1.07); /* just bigger */
+        opacity: 0.92;
+        color: var(--text) !important; /* still not blue */
+    }
+
+/* --- BACK BUTTON OUTSIDE --- */
+.back-row {
+    margin-top: 10px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 14px;
+    font-weight: 901;
+    text-decoration: none !important;
+    background: transparent;
+    color: var(--container) !important; /* no blue */
+
+    border: 2px solid rgba(211,218,217,0.65);
+    transition: transform 0.16s ease, background-color 0.16s ease, border-color 0.16s ease;
+}
+
+    .back-link:hover {
+        transform: scale(1.05);
+        background: rgba(211,218,217,0.10);
+        border-color: rgba(211,218,217,0.95);
+    }
+
+/* Bigger arrow */
+.back-arrow {
+    font-size: 1.6rem; /* bigger */
+    line-height: 1;
+}

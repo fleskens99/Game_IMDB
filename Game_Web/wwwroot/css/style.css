@@ -1,4 +1,5 @@
 ﻿/* NAV ONLY — fully isolated */
+
 .Nav-bar {
     background-color: #37353E;
     display: flex;
@@ -25,6 +26,26 @@
 
 .Nav-logo {
     height: 40px;
+}
+/* Brand (logo + name) */
+.Nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+}
+
+    .Nav-brand:hover {
+        text-decoration: none;
+        transform: scale(1.05);
+        transition: 0.2s ease;
+    }
+
+.Nav-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #D3DAD9;
+    letter-spacing: 1px;
 }
 
 .Nav-siteName {
@@ -63,9 +84,18 @@
         font-size: 1.1rem;
     }
 
-.Nav-accountIcon {
-    height: 36px;
+.Nav-account {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
 }
+
+.Nav-accountName {
+    color: #D3DAD9;
+    font-weight: 700;
+}
+
 
 /* Layout background wrapper — isolated */
 .Layout-background {
@@ -73,4 +103,20 @@
     min-height: 100vh;
     width: 100%;
     padding-top: 80px; /* space for navbar */
+    overflow: auto;
 }
+
+.Layout-footer {
+    width: 100%;
+    background: #000000; /* Black footer */
+    padding: 1.2rem 0;
+    margin-top: 2rem;
+}
+
+.Layout-footer-content {
+    text-align: center;
+    color: #D3DAD9; /* Matches your UI text color */
+    font-size: 0.9rem;
+    opacity: 0.85;
+}
+

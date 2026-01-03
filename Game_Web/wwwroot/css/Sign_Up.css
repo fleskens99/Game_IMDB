@@ -1,0 +1,175 @@
+﻿:root {
+    --page-bg: #37353E;
+    --container: #D3DAD9;
+    --btn: #44444E;
+    --text: #37353E;
+}
+
+/* Page background */
+.login-page {
+    background: var(--page-bg);
+}
+
+/* Layout - higher up */
+.login-layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 4vh;
+    padding-bottom: 3vh;
+    gap: 6px;
+}
+
+/* Logo */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 2px;
+}
+
+.brand-logo {
+    width: 96px;
+    height: 96px;
+    object-fit: contain;
+}
+
+.brand-name {
+    color: var(--container);
+    font-weight: 900;
+    font-size: 1.85rem;
+    letter-spacing: 0.3px;
+}
+
+/* Container */
+.login-card {
+    width: min(430px, 92vw);
+    background: var(--container);
+    border-radius: 18px;
+    padding: 24px 22px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+/* Title */
+.login-title {
+    margin: 0 0 12px 0;
+    text-align: center;
+    font-weight: 900;
+    color: var(--text);
+    font-size: 1.9rem;
+}
+
+/* Form */
+.login-form {
+    display: grid;
+    gap: 14px;
+}
+
+.field {
+    display: grid;
+    gap: 6px;
+}
+
+.field-label {
+    font-weight: 900;
+    color: var(--text);
+}
+
+/* Inputs */
+.field-input {
+    border-radius: 14px;
+    padding: 12px 12px;
+    border: 1px solid rgba(55,53,62,0.25);
+    background: rgba(255,255,255,0.65);
+}
+
+    .field-input:focus {
+        border-color: rgba(68,68,78,0.85);
+        box-shadow: 0 0 0 4px rgba(68,68,78,0.20);
+    }
+
+/* Main button */
+.btn-login {
+    width: 100%;
+    border-radius: 14px;
+    padding: 12px 14px;
+    font-weight: 900;
+    cursor: pointer;
+    background: var(--btn);
+    color: var(--container);
+    border: 2px solid var(--btn);
+    transition: transform 0.16s ease, filter 0.16s ease;
+}
+
+    .btn-login:hover {
+        transform: scale(1.05);
+        filter: brightness(1.08);
+    }
+
+/* Text link row */
+.signup-row {
+    text-align: center;
+    margin-top: 0px;
+}
+
+/* Back button outside */
+.back-row {
+    margin-top: 10px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 14px;
+    font-weight: 900;
+    text-decoration: none !important;
+    background: transparent;
+    border: 2px solid rgba(211,218,217,0.65);
+    transition: transform 0.16s ease, background-color 0.16s ease, border-color 0.16s ease;
+}
+
+    .back-link:hover {
+        transform: scale(1.05);
+        background: rgba(211,218,217,0.10);
+        border-color: rgba(211,218,217,0.95);
+    }
+
+.back-arrow {
+    font-size: 1.6rem;
+    line-height: 1;
+}
+
+/* ===== Force NO BLUE on links in every state ===== */
+a.signup-link:link,
+a.signup-link:visited,
+a.signup-link:hover,
+a.signup-link:active,
+a.signup-link:focus,
+a.signup-link:focus-visible {
+    color: var(--text) !important;
+    text-decoration: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    font-weight: 900;
+    display: inline-block;
+    transition: transform 0.16s ease, opacity 0.16s ease;
+}
+
+a.signup-link:hover {
+    transform: scale(1.07);
+    opacity: 0.92;
+}
+
+a.back-link:link,
+a.back-link:visited,
+a.back-link:hover,
+a.back-link:active,
+a.back-link:focus,
+a.back-link:focus-visible {
+    color: var(--container) !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
