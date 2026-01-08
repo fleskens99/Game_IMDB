@@ -1,4 +1,5 @@
 ﻿using Interfaces;
+using DTOs;
 using Microsoft.AspNetCore.Identity;
 
 namespace Logic.Services
@@ -22,12 +23,11 @@ namespace Logic.Services
             return _userRepo.AddUser(name, email, hash, picture);
         }
 
-        public (long Id, string Name, string Email)? ValidateLogin(string email, string password)
+        public (int Id, string Name, string Email)? ValidateLogin(string email, string password)
         {
             var user = _userRepo.GetByEmail(email);
             if (user == null) return null;
-
-            var result = _hasher.VerifyHashedPassword(null!, user.Value.Password, password);
+            PasswordVerificationResult result = _hasher.VerifyHashedPassword(null!, user.Value.Password, password);
             if (result != PasswordVerificationResult.Success) return null;
 
             return (user.Value.Id, user.Value.Name, user.Value.Email);
@@ -36,6 +36,19 @@ namespace Logic.Services
         public byte[]? GetUserPicture(long id)
         {
             return _userRepo.GetPictureById(id);
+        }
+
+        public void ChangePassword(long userId, string oldPassword, string newPassword)
+        {
+            var currentHash = _userRepo.GetPasswordHashById(userId);
+            if (currentHash == null) throw new Exception("User not found.");
+
+            var verify = _hasher.VerifyHashedPassword(null!, currentHash, oldPassword);
+            if (verify != PasswordVerificationResult.Success)
+                throw new Exception("Old password is incorrect.");
+
+            var newHash = _hasher.HashPassword(null!, newPassword);
+            _userRepo.UpdatePasswordHash(userId, newHash);
         }
     }
 }

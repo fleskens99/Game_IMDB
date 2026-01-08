@@ -29,15 +29,15 @@ public class LoginModel : PageModel
             return Page();
         }
 
-        var claims = new List<Claim>
+        List<Claim> claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Value.Id.ToString()),
             new Claim(ClaimTypes.Name, user.Value.Name),
             new Claim(ClaimTypes.Email, user.Value.Email),
         };
 
-        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        var principal = new ClaimsPrincipal(identity);
+        ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 
         HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal).GetAwaiter().GetResult();
 

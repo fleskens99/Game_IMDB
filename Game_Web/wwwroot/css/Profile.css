@@ -29,9 +29,14 @@
     background: rgba(24, 28, 20, 0.6);
 }
 
+.Acc-details {
+    margin-top: 18px;
+}
+
+
 .Acc-heroInfo {
     display: grid;
-    gap: 8px;
+    gap: 10px;
 }
 
 .Acc-name {
@@ -42,14 +47,45 @@
     letter-spacing: 0.4px;
 }
 
-.Acc-email {
-    color: rgba(211, 218, 217, 0.8);
-    font-weight: 800;
+.Log-Out-Btn {
+    width: 68%;
+    border-radius: 16px;
+    padding: 6px 10px;
+    font-weight: 900;
+    cursor: pointer;
+    background: rgba(255, 90, 90, 0.14);
+    color: #FFB0B0;
+    border: 1px solid rgba(255, 176, 176, 0.30);
+    transition: transform 0.16s ease, background-color 0.16s ease, color 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+    box-shadow: 0 10px 26px rgba(0,0,0,0.20);
 }
+
+    .Log-Out-Btn:hover {
+        transform: scale(1.06);
+        background: rgba(255, 90, 90, 0.20);
+        border-color: rgba(255, 176, 176, 0.45);
+        box-shadow: 0 14px 34px rgba(0,0,0,0.28);
+    }
+
+    .Log-Out-Btn:active {
+        transform: scale(1.02);
+    }
+
+    .Log-Out-Btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(255, 176, 176, 0.22), 0 10px 26px rgba(0,0,0,0.20);
+    }
+
+    .Log-Out-Btn:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
 
 .Acc-grid {
     display: grid;
-    grid-template-columns: 1.4fr 0.8fr;
+    grid-template-columns: 1fr;
     gap: 18px;
 }
 
@@ -60,12 +96,7 @@
     padding: 18px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.25);
     backdrop-filter: blur(8px);
-}
-
-.Acc-cardSmall {
-    display: grid;
-    gap: 14px;
-    align-content: start;
+    width: 100%;
 }
 
 .Acc-cardTitle {
@@ -83,11 +114,12 @@
 .Acc-row {
     display: grid;
     grid-template-columns: 140px 1fr;
-    gap: 12px;
+    gap: 15px;
     padding: 12px 12px;
     border-radius: 16px;
     background: rgba(24, 28, 20, 0.45);
     border: 1px solid rgba(211, 218, 217, 0.10);
+    align-items: center;
 }
 
 .Acc-label {
@@ -101,44 +133,118 @@
     word-break: break-word;
 }
 
-.Acc-pillRow {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+.Acc-toggle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
 }
 
-.Acc-pill {
-    padding: 12px;
-    border-radius: 16px;
-    background: rgba(24, 28, 20, 0.45);
-    border: 1px solid rgba(211, 218, 217, 0.10);
+.Acc-rowClickable {
+    cursor: pointer;
+    user-select: none;
+    margin-top: 20px;
+    transition: transform 0.16s ease, background-color 0.16s ease, border-color 0.16s ease;
+    transform-origin: center;
 }
 
-.Acc-pillTop {
-    color: rgba(211, 218, 217, 0.65);
-    font-weight: 900;
-    font-size: 0.85rem;
-    margin-bottom: 6px;
-}
+    .Acc-rowClickable:hover {
+        transform: scale(1.02);
+        background: rgba(24, 28, 20, 0.52);
+        border-color: rgba(211, 218, 217, 0.16);
+    }
 
-.Acc-pillBottom {
+.Acc-actionText {
     color: #D3DAD9;
     font-weight: 900;
-    font-size: 1.05rem;
 }
 
-.Acc-note {
-    color: rgba(211, 218, 217, 0.7);
+.Acc-passBlock {
+    display: none;
+    margin-top: 10px;
+}
+
+.Acc-toggle:checked + .Acc-rowClickable + .Acc-passBlock {
+    display: block;
+}
+
+.Acc-passForm {
+    display: grid;
+    gap: 10px;
+}
+
+.Acc-passInput {
+    width: 100%;
+    background: rgba(24, 28, 20, 0.50);
+    border: 1px solid rgba(211, 218, 217, 0.14);
+    border-radius: 14px;
+    padding: 12px 12px;
+    color: #D3DAD9;
     font-weight: 800;
-    line-height: 1.35;
+    outline: none;
+}
+
+    .Acc-passInput:focus {
+        border-color: rgba(211, 218, 217, 0.32);
+    }
+
+.Acc-passActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.Acc-saveBtn {
+    border-radius: 16px;
+    padding: 10px 14px;
+    font-weight: 900;
+    cursor: pointer;
+    background: #D3DAD9;
+    color: #181C14;
+    border: 1px solid rgba(211, 218, 217, 0.35);
+    transition: transform 0.16s ease, box-shadow 0.16s ease;
+    box-shadow: 0 10px 26px rgba(0,0,0,0.20);
+}
+
+    .Acc-saveBtn:hover {
+        transform: scale(1.04);
+    }
+
+.Acc-cancelBtn {
+    border-radius: 16px;
+    padding: 10px 14px;
+    font-weight: 900;
+    cursor: pointer;
+    background: transparent;
+    color: #D3DAD9;
+    border: 1px solid rgba(211, 218, 217, 0.22);
+    transition: transform 0.16s ease, background-color 0.16s ease, border-color 0.16s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .Acc-cancelBtn:hover {
+        transform: scale(1.04);
+        background: rgba(211, 218, 217, 0.08);
+        border-color: rgba(211, 218, 217, 0.30);
+    }
+
+.Acc-validation {
+    color: #FFB0B0;
+    font-weight: 800;
 }
 
 @media (max-width: 980px) {
-    .Acc-grid {
-        grid-template-columns: 1fr;
-    }
-
     .Acc-row {
         grid-template-columns: 1fr;
     }
-}
+
+    .Log-Out-Btn {
+        width: 100%;
+    }
+
+    .Acc-passActions {
+        justify-content: stretch;
+        flex-direction: column;

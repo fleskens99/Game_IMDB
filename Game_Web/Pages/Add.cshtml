@@ -25,9 +25,11 @@
 
             <div class="AddGame-group">
                 <label asp-for="Input.Description">Description</label>
-                <textarea asp-for="Input.Description" rows="2" class="form-control"></textarea>
+                <textarea asp-for="Input.Description" rows="2" class="form-control" minlength="200" required
+                          placeholder="Write at least 200 characters..."></textarea>
                 <span asp-validation-for="Input.Description" class="AddGame-hint"></span>
             </div>
+
 
             <div class="AddGame-group">
                 <label asp-for="Input.Category">Category</label>

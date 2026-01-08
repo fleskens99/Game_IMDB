@@ -1,7 +1,7 @@
 ﻿@page
 @model Game_Web.Pages.Account.ProfilePageModel
 @{
-    ViewData["Title"] = "ProfilePage";
+    ViewData["Title"] = "Profile";
 }
 
 <link rel="stylesheet" href="~/css/Profile.css" />
@@ -13,14 +13,19 @@
 
             <div class="Acc-heroInfo">
                 <div class="Acc-name">@Model.DisplayName</div>
-                <div class="Acc-email">@Model.Email</div>
+
+                <form method="post" asp-page-handler="Logout">
+                    <button type="submit" class="Log-Out-Btn">Log out</button>
+                </form>
             </div>
         </div>
     </div>
 
     <div class="Acc-grid">
-        <section class="Acc-card">
-            <div class="Acc-cardTitle">Your information</div>
+        <section class="Acc-card Acc-cardFull">
+            <div class="Acc-cardHeader">
+                <div class="Acc-cardTitle">Your information</div>
+            </div>
 
             <div class="Acc-rows">
                 <div class="Acc-row">
@@ -32,32 +37,39 @@
                     <div class="Acc-label">Email</div>
                     <div class="Acc-value">@Model.Email</div>
                 </div>
-
-                <div class="Acc-row">
-                    <div class="Acc-label">User ID</div>
-                    <div class="Acc-value">@Model.UserId</div>
-                </div>
             </div>
-        </section>
+            <input type="checkbox" id="PwEdit" class="Acc-toggle" />
 
-        <section class="Acc-card Acc-cardSmall">
-            <div class="Acc-cardTitle">Account</div>
+            <label for="PwEdit" class="Acc-row Acc-rowClickable">
+                <div class="Acc-value Acc-actionText">Change password</div>
+            </label>
 
-            <div class="Acc-pillRow">
-                <div class="Acc-pill">
-                    <div class="Acc-pillTop">Status</div>
-                    <div class="Acc-pillBottom">Active</div>
-                </div>
+            <div class="Acc-passBlock">
+                <form method="post" asp-page-handler="ChangePassword" class="Acc-passForm">
+                    <div class="Acc-row">
+                        <label class="Acc-label" for="OldPassword">Old password</label>
+                        <input id="OldPassword" class="Acc-passInput" type="password" asp-for="OldPassword" required />
+                    </div>
 
-                <div class="Acc-pill">
-                    <div class="Acc-pillTop">Signed in</div>
-                    <div class="Acc-pillBottom">Yes</div>
-                </div>
+                    <div class="Acc-row">
+                        <label class="Acc-label" for="NewPassword">New password</label>
+                        <input id="NewPassword" class="Acc-passInput" type="password" asp-for="NewPassword" required />
+                    </div>
+
+                    <div class="Acc-passActions">
+                        <button type="submit" class="Acc-saveBtn">Save</button>
+                        <label for="PwEdit" class="Acc-cancelBtn" tabindex="0">Cancel</label>
+                    </div>
+
+                    <div class="Acc-validation" asp-validation-summary="All"></div>
+                </form>
             </div>
 
-            <div class="Acc-note">
-                Your profile picture keeps the default icon until you upload one.
-            </div>
+
         </section>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
