@@ -21,7 +21,6 @@
         }
     </section>
 
-    <!-- CONTENT -->
     <section class="details-grid">
 
         <article class="details-card details-card--main">
@@ -32,8 +31,10 @@
                 @Model.Game.Description
             </p>
         </article>
+
         <aside class="details-card details-card--side">
             <div class="details-side-title">User Comments</div>
+
             <div class="comment">
                 <div class="avatar">J</div>
                 <div class="comment-body">
@@ -49,6 +50,24 @@
                     <div class="comment-text">The storyline kept me hooked for hours. Highly recommend!</div>
                 </div>
             </div>
+            <form method="post"> 
+                <div class="add-comment">
+                    <div class="add-comment-header">
+                        <div class="add-comment-title">Leave a Comment</div>
+                        <div class="rating-inline">
+                            <input asp-for="Rating.Rate" class="rating-input" type="number" min="0" max="5"/>
+                            <span class="rating-max">/5</span>
+                        </div>
+                    </div>
+
+                    <textarea asp-for="Rating.Comment"
+                              class="add-comment-text"
+                              placeholder="Share your thoughts about this game..."
+                              rows="3"></textarea>
+
+                    <button type="submit" class="comment-submit">Post Comment</button>
+                </div>
+            </form>
         </aside>
 
     </section>

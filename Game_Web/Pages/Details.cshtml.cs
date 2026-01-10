@@ -12,6 +12,7 @@ namespace Game_Web.Pages
         private readonly IGameRepo _gameRepo;
 
         public GameDTO Game { get; set; } = null!;
+        public RatingDTO Rating { get; set; } = null!;
 
         public DetailsModel(IGameRepo gameRepo)
         {

@@ -122,12 +122,4 @@ namespace Repos
         }
     }
 
-    internal static class SqlDataReaderExtensions
-    {
-        public static int GetInt32(this SqlDataReader reader, string name) =>
-            reader.GetInt32(reader.GetOrdinal(name));
-
-        public static string GetString(this SqlDataReader reader, string name) =>
-            reader.GetString(reader.GetOrdinal(name));
-    }
 }
