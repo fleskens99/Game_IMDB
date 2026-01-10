@@ -8,6 +8,6 @@ namespace DAL
 {
     internal class DatabaseConnectionString
     {
-        public static string ConnectionString = "Server=localhost;Database=web_aplication;User=root;Password=francisco;";
+        public static string ConnectionString = "Server=mssqlstud.fhict.local;Database=dbi568311_gameimdb;User Id=dbi568311_gameimdb;Password=francisco;TrustServerCertificate=True;";
     }
 }
