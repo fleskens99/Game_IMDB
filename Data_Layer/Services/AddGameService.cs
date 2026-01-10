@@ -9,7 +9,7 @@ namespace Services
 
         public AddGameService(IGameRepo repository)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _repository = repository;
         }
 
         public async Task<int> AddGame(GameDTO game, CancellationToken cancellationToken = default)
