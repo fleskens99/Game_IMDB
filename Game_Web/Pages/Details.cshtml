@@ -31,43 +31,73 @@
                 @Model.Game.Description
             </p>
         </article>
-
         <aside class="details-card details-card--side">
             <div class="details-side-title">User Comments</div>
 
-            <div class="comment">
-                <div class="avatar">J</div>
-                <div class="comment-body">
-                    <div class="comment-name">JohnDoe92</div>
-                    <div class="comment-text">Amazing graphics and immersive gameplay. Definitely a must-play!</div>
-                </div>
-            </div>
+            @if (Model.Comments.Any())
+            {
+                @foreach (var comment in Model.Comments)
+                {
+                    <div class="comment">
+                        <div class="avatar">
+                            @Model.UserName.Substring(0, 1).ToUpper()
+                        </div>
 
-            <div class="comment">
-                <div class="avatar">L</div>
-                <div class="comment-body">
-                    <div class="comment-name">LaraGamer</div>
-                    <div class="comment-text">The storyline kept me hooked for hours. Highly recommend!</div>
-                </div>
-            </div>
-            <form method="post"> 
-                <div class="add-comment">
-                    <div class="add-comment-header">
-                        <div class="add-comment-title">Leave a Comment</div>
-                        <div class="rating-inline">
-                            <input asp-for="Rating.Score" class="rating-input" type="number" min="0" max="5" />
-                            <span class="rating-max">/5</span>
+                        <div class="comment-body">
+                            <div class="comment-name">
+                                @Model.UserName
+                            </div>
+
+                            <div class="comment-text">
+                                @comment.Comment
+                            </div>
+
+                            <div class="comment-score">
+                                Rating: @comment.Score / 5
+                            </div>
                         </div>
                     </div>
+                }
+            }
+            else
+            {
+                <p class="no-comments">No comments yet. Be the first to comment!</p>
+            }
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <form method="post">
+                    <!-- THIS IS THE MISSING LINE -->
+                    <input type="hidden" asp-for="Rating.GameId" />
 
-                    <textarea asp-for="Rating.Comment"
-                              class="add-comment-text"
-                              placeholder="Share your thoughts about this game..."
-                              rows="3"></textarea>
+                    <div class="add-comment">
+                        <div class="add-comment-header">
+                            <div class="add-comment-title">Leave a Comment</div>
+                            <div class="rating-inline">
+                                <input asp-for="Rating.Score"
+                                       class="rating-input"
+                                       type="number"
+                                       min="0"
+                                       max="5" />
+                                <span class="rating-max">/5</span>
+                            </div>
+                        </div>
 
-                    <button type="submit" class="comment-submit">Post Comment</button>
-                </div>
-            </form>
+                        <textarea asp-for="Rating.Comment"
+                                  class="add-comment-text"
+                                  placeholder="Share your thoughts about this game..."
+                                  rows="3"></textarea>
+
+                        <button type="submit" class="comment-submit">
+                            Post Comment
+                        </button>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <p>You must be logged in to comment.</p>
+            }
+
         </aside>
 
     </section>
