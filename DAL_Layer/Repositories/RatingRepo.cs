@@ -62,6 +62,23 @@ namespace Repos
             return ratings;
         }
 
+        public bool UserHasRated(int userId, int gameId)
+        {
+            const string sql = @"
+        SELECT COUNT(1)
+        FROM dbo.Rating
+        WHERE UserId = @UserId AND GameId = @GameId";
+
+            using SqlConnection conn = new(DatabaseConnectionString.ConnectionString);
+            conn.Open();
+
+            using SqlCommand cmd = new(sql, conn);
+            cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = userId;
+            cmd.Parameters.Add("@GameId", SqlDbType.Int).Value = gameId;
+
+            return (int)cmd.ExecuteScalar() > 0;
+        }
+
 
     }
 }

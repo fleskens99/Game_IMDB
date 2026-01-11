@@ -93,6 +93,18 @@
     font-weight: 900;
 }
 
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comment-score {
+    font-weight: 900;
+    opacity: 0.85;
+}
+
+
 .comment-name {
     font-weight: 900;
     margin-bottom: 0.25rem;

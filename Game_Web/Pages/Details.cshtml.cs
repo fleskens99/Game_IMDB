@@ -16,6 +16,8 @@ namespace Game_Web.Pages
         public GameDTO Game { get; set; } = null!;
         public List<RatingDTO> Comments { get; set; } = new();
         public string UserName { get; set; } = string.Empty;
+        public bool HasUserCommented { get; set; }
+
 
         [BindProperty]
         public RatingDTO Rating { get; set; } = new RatingDTO();
@@ -34,28 +36,50 @@ namespace Game_Web.Pages
 
             if (Game == null)
                 return NotFound();
-            UserName = User.Identity!.IsAuthenticated ? User.FindFirstValue(ClaimTypes.Name)! : "Guest";
+
+            if (User.Identity!.IsAuthenticated)
+            {
+                UserName = User.FindFirstValue(ClaimTypes.Name)!;
+
+                int userId = int.Parse(
+                    User.FindFirstValue(ClaimTypes.NameIdentifier)!
+                );
+
+                HasUserCommented = _ratingRepo.UserHasRated(userId, id);
+            }
+            else
+            {
+                UserName = "Guest";
+            }
 
             Rating.GameId = id;
-
             return Page();
         }
+
 
         public IActionResult OnPost()
         {
             if (!User.Identity!.IsAuthenticated)
                 return Unauthorized();
 
-            if (!ModelState.IsValid)
-                return Page();
             Rating.UserId = int.Parse(
                 User.FindFirstValue(ClaimTypes.NameIdentifier)!
             );
+
+            if (_ratingRepo.UserHasRated(Rating.UserId, Rating.GameId))
+            {
+                ModelState.AddModelError(string.Empty, "You already commented on this game.");
+                return Page();
+            }
+
+            if (!ModelState.IsValid)
+                return Page();
 
             _ratingService.AddRating(Rating);
 
             return RedirectToPage(new { id = Rating.GameId });
         }
+
 
     }
 }

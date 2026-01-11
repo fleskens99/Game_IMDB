@@ -18,21 +18,18 @@ namespace Services
             if (rating == null)
                 throw new ArgumentNullException(nameof(rating));
 
-            if (rating.UserId <= 0)
-                throw new ArgumentException("UserId is required", nameof(rating.UserId));
-
-            if (rating.GameId <= 0)
-                throw new ArgumentException("GameId is required", nameof(rating.GameId));
+            if (_ratingRepo.UserHasRated(rating.UserId, rating.GameId))
+                throw new InvalidOperationException("User has already rated this game.");
 
             if (rating.Score < 0 || rating.Score > 5)
-                throw new ArgumentOutOfRangeException(nameof(rating.Score),
-                    "Rating must be between 0 and 5");
+                throw new ArgumentOutOfRangeException(nameof(rating.Score));
 
             if (string.IsNullOrWhiteSpace(rating.Comment))
-                throw new ArgumentException("Comment is required", nameof(rating.Comment));
+                throw new ArgumentException("Comment is required");
 
             return _ratingRepo.AddRating(rating);
         }
+
 
     }
 }
