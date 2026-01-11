@@ -54,7 +54,7 @@ namespace Repos
                     Id = reader.GetInt32("Id"),
                     UserId = reader.GetInt32("UserId"),
                     GameId = reader.GetInt32("GameId"),
-                    Score = reader.GetInt32("Score"),
+                    Score = reader.GetDecimal("Score"),
                     Comment = reader.GetString("Comment")
                 });
             }
@@ -64,10 +64,7 @@ namespace Repos
 
         public bool UserHasRated(int userId, int gameId)
         {
-            const string sql = @"
-        SELECT COUNT(1)
-        FROM dbo.Rating
-        WHERE UserId = @UserId AND GameId = @GameId";
+            const string sql = @" SELECT COUNT(1) FROM dbo.Rating WHERE UserId = @UserId AND GameId = @GameId";
 
             using SqlConnection conn = new(DatabaseConnectionString.ConnectionString);
             conn.Open();
@@ -77,6 +74,21 @@ namespace Repos
             cmd.Parameters.Add("@GameId", SqlDbType.Int).Value = gameId;
 
             return (int)cmd.ExecuteScalar() > 0;
+        }
+
+        public double GetAverageRatingForGame(int gameId)
+        {
+            const string sql = @"SELECT AVG(CAST(Score AS FLOAT)) FROM dbo.Rating WHERE GameId = @GameId";
+
+            using SqlConnection conn = new(DatabaseConnectionString.ConnectionString);
+            conn.Open();
+
+            using SqlCommand cmd = new(sql, conn);
+            cmd.Parameters.Add("@GameId", SqlDbType.Int).Value = gameId;
+
+            object result = cmd.ExecuteScalar();
+
+            return result == DBNull.Value ? 0 : Convert.ToDouble(result);
         }
 
 

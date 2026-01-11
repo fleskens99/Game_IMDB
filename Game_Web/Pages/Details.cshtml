@@ -43,15 +43,18 @@
                             @Model.UserName.Substring(0, 1).ToUpper()
                         </div>
 
-                        <div class="comment-header">
-                            <span class="comment-name">@Model.UserName</span>
-                            <span class="comment-score">@comment.Score/5</span>
-                        </div>
+                        <div class="comment-body">
+                            <div class="comment-header">
+                                <span class="comment-name">@Model.UserName</span>
+                                <span class="comment-score">@comment.Score/5</span>
+                            </div>
 
-                        <div class="comment-text">
-                            @comment.Comment
+                            <div class="comment-text">
+                                @comment.Comment
+                            </div>
                         </div>
                     </div>
+
                 }
             }
             else
