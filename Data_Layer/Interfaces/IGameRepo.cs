@@ -4,8 +4,10 @@ namespace Interfaces
 {
     public interface IGameRepo
     {
+        int AddGame(GameDTO game);
         List<GameDTO> GetGames();
-        Task<int> AddGame(GameDTO game, CancellationToken cancellationToken = default);
+        public void EditGame(GameDTO game);
+        public void DeleteGame(int id);
         GameDTO GetGameById(int id);
         byte[]? GetImageBlob(int id);
     }
