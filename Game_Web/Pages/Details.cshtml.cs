@@ -3,7 +3,7 @@ using Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
-using System.Security.Cryptography.Xml;
+using ViewModels;
 
 namespace Game_Web.Pages
 {
@@ -12,7 +12,7 @@ namespace Game_Web.Pages
         private readonly IGameService _gameService;
         private readonly IRatingService _ratingService;
 
-        public GameDTO Game { get; set; } = null!;
+        public GameWithRatingViewModel Game { get; set; } = null!;
         public List<RatingDTO> Comments { get; set; } = new();
         public string UserName { get; set; } = string.Empty;
         public bool HasUserCommented { get; set; }

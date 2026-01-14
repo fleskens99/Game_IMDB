@@ -1,6 +1,5 @@
 ﻿using DTOs;
 using Presentation.ViewModels;
-using ViewModels;
 
 namespace VmMapper
 {
@@ -12,6 +11,7 @@ namespace VmMapper
             {
                 Email = user.Email,
                 Password = user.password,
+                Admin = user.Admin,
             };
         }
 
@@ -21,6 +21,7 @@ namespace VmMapper
             {
                 Email = user.Email,
                 password = user.Password,
+                Admin = user.Admin,
             };
         }
     }

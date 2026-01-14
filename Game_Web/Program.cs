@@ -9,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Register services BEFORE Build
 builder.Services.AddRazorPages();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession();
 builder.Services.AddScoped<IGameRepo, GameRepo>();
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
@@ -39,6 +41,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();

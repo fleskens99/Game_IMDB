@@ -15,7 +15,8 @@ namespace Mapper
                 Name = userDto.Name,
                 Email = userDto.Email,
                 password = userDto.password,
-                Picture = userDto.Picture
+                Picture = userDto.Picture,
+                Admin = userDto.Admin,
             };
         }
         public UserDTO Mapper(User user)
@@ -27,7 +28,8 @@ namespace Mapper
                 Name = user.Name,
                 Email = user.Email,
                 password = user.password,
-                Picture = user.Picture
+                Picture = user.Picture,
+                Admin = user.Admin,
             };
         }
     }

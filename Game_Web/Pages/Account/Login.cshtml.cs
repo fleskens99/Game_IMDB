@@ -10,10 +10,10 @@ namespace Game_Web.Pages.Account;
 
 public class LoginModel : PageModel
 {
-    private readonly IUserService _users;
-    public LoginModel(IUserService users)
+    private readonly IUserService _userService;
+    public LoginModel(IUserService userService)
     {
-        _users = users;
+        _userService = userService;
     }
 
     [BindProperty]
@@ -25,7 +25,7 @@ public class LoginModel : PageModel
     {
         if (!ModelState.IsValid) return Page();
 
-        var user = _users.ValidateLogin(Input.Email, Input.Password);
+        var user = _userService.ValidateLogin(Input.Email, Input.Password, Input.Admin);
         if (user == null)
         {
             ModelState.AddModelError(string.Empty, "Invalid email or password.");

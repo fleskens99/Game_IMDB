@@ -28,9 +28,9 @@ namespace Repo
             }
         }
 
-        public (int Id, string Name, string Email, string Password)? GetByEmail(string email)
+        public (int Id, string Name, string Email, string Password, bool Admin)? GetByEmail(string email)
         {
-            const string sql = @"SELECT TOP 1 Id, Name, Email, Password FROM dbo.Users WHERE Email = @Email;";
+            const string sql = @"SELECT TOP 1 Id, Name, Email, Password, Admin FROM dbo.Users WHERE Email = @Email;";
 
             using (SqlConnection conn = new SqlConnection(DatabaseConnectionString.ConnectionString))
             {
@@ -47,7 +47,8 @@ namespace Repo
                         reader.GetInt32(reader.GetOrdinal("Id")),
                         reader.GetString(reader.GetOrdinal("Name")),
                         reader.GetString(reader.GetOrdinal("Email")),
-                        reader.GetString(reader.GetOrdinal("Password")));
+                        reader.GetString(reader.GetOrdinal("Password")),
+                        reader.GetBoolean(reader.GetOrdinal("Admin")));
                     }
                 }
             }

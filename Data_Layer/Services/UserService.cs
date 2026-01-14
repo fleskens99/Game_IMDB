@@ -23,14 +23,14 @@ namespace Logic.Services
             return _userRepo.AddUser(name, email, hash, picture);
         }
 
-        public (int Id, string Name, string Email)? ValidateLogin(string email, string password)
+        public (int Id, string Name, string Email, bool Admin)? ValidateLogin(string email, string password, bool admin)
         {
             var user = _userRepo.GetByEmail(email);
             if (user == null) return null;
             PasswordVerificationResult result = _hasher.VerifyHashedPassword(null!, user.Value.Password, password);
             if (result != PasswordVerificationResult.Success) return null;
 
-            return (user.Value.Id, user.Value.Name, user.Value.Email);
+            return (user.Value.Id, user.Value.Name, user.Value.Email, user.Value.Admin);
         }
 
         public byte[]? GetUserPicture(long id)
