@@ -11,7 +11,10 @@ namespace Game_Web.Pages.Account;
 public class LoginModel : PageModel
 {
     private readonly IUserService _users;
-    public LoginModel(IUserService users) => _users = users;
+    public LoginModel(IUserService users)
+    {
+        _users = users;
+    }
 
     [BindProperty]
     public LogedInVm Input { get; set; } = new();

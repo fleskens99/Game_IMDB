@@ -17,9 +17,9 @@ namespace Repo
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    cmd.Parameters.Add("@Name", SqlDbType.Int).Value = name;
-                    cmd.Parameters.Add("@Email", SqlDbType.Int).Value = email;
-                    cmd.Parameters.Add("@PasswordHash", SqlDbType.Int).Value = password;
+                    cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 255).Value = name;
+                    cmd.Parameters.Add("@Email", SqlDbType.NVarChar, 255).Value = email;
+                    cmd.Parameters.Add("@PasswordHash", SqlDbType.NVarChar, 255).Value = password;
                     cmd.Parameters.Add("@Picture", SqlDbType.VarBinary, -1).Value = (object?)picture ?? DBNull.Value;
 
                     object? newIdObj = cmd.ExecuteScalar();
@@ -38,7 +38,7 @@ namespace Repo
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    cmd.Parameters.Add("@Email", SqlDbType.Int).Value = email;
+                    cmd.Parameters.Add("@Email", SqlDbType.NVarChar, -1).Value = email;
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -94,7 +94,7 @@ namespace Repo
 
         public void UpdatePasswordHash(long userId, string newPasswordHash)
         {
-            const string sql = @"UPDATE dbo.Users SET Password = @Hash WHERE Id = @Id;";
+            const string sql = @"UPDATE dbo.Users SET Password = @PasswordHash WHERE Id = @Id;";
 
             using (SqlConnection conn = new SqlConnection(DatabaseConnectionString.ConnectionString))
             {
@@ -103,7 +103,7 @@ namespace Repo
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     cmd.Parameters.Add("@Id", SqlDbType.Int).Value = userId;
-                    cmd.Parameters.Add("@Hash", SqlDbType.Int).Value = newPasswordHash;
+                    cmd.Parameters.Add("@PasswordHash", SqlDbType.NVarChar, 255).Value = newPasswordHash;
                     cmd.ExecuteNonQuery();
                 }
             }

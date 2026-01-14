@@ -1,8 +1,9 @@
+using DTOs;
+using Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Interfaces;
-using DTOs;
 using ViewModels;
+using VmMapper;
 
 namespace Game_Web.Pages;
 
@@ -30,13 +31,10 @@ public class IndexModel : PageModel
         {
             int avg = _ratingService.GetAverageScoreFromGames(game.Id);
 
-            Games.Add(new GameWithRatingViewModel
-            {
-                Games = games,
-                AverageRating = avg
-            });
+            Games.Add(GameWithRatingVmMapper.ToViewModel(game, avg));
         }
     }
+
 
     public IActionResult OnPost()
     {
