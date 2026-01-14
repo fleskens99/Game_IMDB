@@ -2,13 +2,16 @@
 
 namespace Interfaces
 {
-    public interface IGameRepo
+    public interface IGameService
     {
         int AddGame(GameDTO game);
-        List<GameDTO> GetGames();
+        public List<GameDTO> GetGames();
         public void EditGame(GameDTO game);
         public void DeleteGame(int id);
-        GameDTO GetGameById(int id);
-        byte[]? GetImageBlob(int id);
+        public GameDTO GetGameById(int id);
+        public byte[]? GetImageBlob(int id);
+
+
     }
+
 }

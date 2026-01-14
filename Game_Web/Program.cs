@@ -10,9 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Register services BEFORE Build
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IGameRepo, GameRepo>();
-builder.Services.AddScoped<IAddGameService, AddGameService>();
+builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IRatingRepo, RatingRepo>();
+builder.Services.AddScoped<IRatingService, RatingService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

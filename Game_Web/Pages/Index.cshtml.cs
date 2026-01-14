@@ -1,35 +1,48 @@
+using DTOs;
+using Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Interfaces;
-using DTOs;
+using ViewModels;
+using VmMapper;
 
 namespace Game_Web.Pages;
 
 public class IndexModel : PageModel
 {
-    private readonly IGameRepo _gameRepo;
+    private readonly IGameService _gameService;
+    private readonly IRatingService _ratingService;
     [BindProperty]
-    public List<GameDTO> Games { get; set; } = new();
-    public List<GameDTO> Gameid { get; set; } = new();
+    public List<GameWithRatingViewModel> Games { get; set; } = new();
 
 
-    public IndexModel(IGameRepo gameRepo)
+    public IndexModel(IGameService gameService, IRatingService ratingService)
     {
-        _gameRepo = gameRepo;
+        _gameService = gameService ?? throw new ArgumentNullException(nameof(gameService));
+        _ratingService = ratingService ?? throw new ArgumentNullException(nameof(ratingService));
     }
 
 
-    public void OnGet() 
+    public void OnGet()
     {
-        Games = _gameRepo.GetGames();
+        var games = _gameService.GetGames();
+        Games = new List<GameWithRatingViewModel>();
+
+        foreach (var game in games)
+        {
+            int avg = _ratingService.GetAverageScoreFromGames(game.Id);
+
+            Games.Add(GameWithRatingVmMapper.ToViewModel(game, avg));
+        }
     }
+
+
     public IActionResult OnPost()
     {
         return RedirectToPage("/Details");
     }
     public IActionResult OnGetImage(int id)
     {
-        var imageData = _gameRepo.GetImageBlob(id);
+        var imageData = _gameService.GetImageBlob(id);
 
         if (imageData == null || imageData.Length == 0)
             return NotFound();
