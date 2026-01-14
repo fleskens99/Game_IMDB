@@ -9,9 +9,8 @@ namespace Game_Web.Pages
 {
     public class DetailsModel : PageModel
     {
-        private readonly IGameRepo _gameRepo;
+        private readonly IGameService _gameService;
         private readonly IRatingService _ratingService;
-        private readonly IRatingRepo _ratingRepo;
 
         public GameDTO Game { get; set; } = null!;
         public List<RatingDTO> Comments { get; set; } = new();
@@ -22,17 +21,16 @@ namespace Game_Web.Pages
         [BindProperty]
         public RatingDTO Rating { get; set; } = new RatingDTO();
 
-        public DetailsModel(IGameRepo gameRepo, IRatingService ratingService, IRatingRepo ratingRepo)
+        public DetailsModel(IGameService gameService, IRatingService ratingService)
         {
-            _gameRepo = gameRepo;
+            _gameService = gameService;
             _ratingService = ratingService;
-            _ratingRepo = ratingRepo;
         }
 
         public IActionResult OnGet(int id)
         {
-            Game = _gameRepo.GetGameById(id);
-            Comments = _ratingRepo.GetRatingsByGame(id);
+            Game = _gameService.GetGameById(id);
+            Comments = _ratingService.GetRatingsByGame(id);
 
             if (Game == null)
                 return NotFound();
@@ -45,7 +43,7 @@ namespace Game_Web.Pages
                     User.FindFirstValue(ClaimTypes.NameIdentifier)!
                 );
 
-                HasUserCommented = _ratingRepo.UserHasRated(userId, id);
+                HasUserCommented = _ratingService.UserHasRated(userId, id);
             }
             else
             {
@@ -66,7 +64,7 @@ namespace Game_Web.Pages
                 User.FindFirstValue(ClaimTypes.NameIdentifier)!
             );
 
-            if (_ratingRepo.UserHasRated(Rating.UserId, Rating.GameId))
+            if (_ratingService.UserHasRated(Rating.UserId, Rating.GameId))
             {
                 ModelState.AddModelError(string.Empty, "You already commented on this game.");
                 return Page();

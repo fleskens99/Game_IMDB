@@ -8,7 +8,11 @@ namespace Game_Web.Pages.Account;
 public class ProfileImageModel : PageModel
 {
     private readonly IUserService _users;
-    public ProfileImageModel(IUserService users) => _users = users;
+    public ProfileImageModel(IUserService users) 
+    {
+        _users = users;
+    }
+
 
     public IActionResult OnGet()
     {

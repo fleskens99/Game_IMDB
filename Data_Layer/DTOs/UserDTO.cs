@@ -7,6 +7,7 @@
         public string Email { get; set; }
         public string password { get; set; } 
         public byte[]? Picture { get; set; } 
+        public bool Admin { get; set; }
 
     }
 }
