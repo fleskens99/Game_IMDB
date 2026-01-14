@@ -17,9 +17,9 @@ namespace Repo
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Name", name);
-                    cmd.Parameters.AddWithValue("@Email", email);
-                    cmd.Parameters.AddWithValue("@PasswordHash", password);
+                    cmd.Parameters.Add("@Name", SqlDbType.Int).Value = name;
+                    cmd.Parameters.Add("@Email", SqlDbType.Int).Value = email;
+                    cmd.Parameters.Add("@PasswordHash", SqlDbType.Int).Value = password;
                     cmd.Parameters.Add("@Picture", SqlDbType.VarBinary, -1).Value = (object?)picture ?? DBNull.Value;
 
                     object? newIdObj = cmd.ExecuteScalar();
@@ -38,7 +38,7 @@ namespace Repo
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.Add("@Email", SqlDbType.Int).Value = email;
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -63,7 +63,7 @@ namespace Repo
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.Parameters.Add("@Id", SqlDbType.Int).Value = id;
 
                     object? obj = cmd.ExecuteScalar();
                     if (obj == null || obj == DBNull.Value) return null;
@@ -83,7 +83,7 @@ namespace Repo
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Id", userId);
+                    cmd.Parameters.Add("@Id", SqlDbType.Int).Value = userId;
 
                     object? obj = cmd.ExecuteScalar();
                     if (obj == null || obj == DBNull.Value) return null;
@@ -102,8 +102,8 @@ namespace Repo
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Id", userId);
-                    cmd.Parameters.AddWithValue("@Hash", newPasswordHash);
+                    cmd.Parameters.Add("@Id", SqlDbType.Int).Value = userId;
+                    cmd.Parameters.Add("@Hash", SqlDbType.Int).Value = newPasswordHash;
                     cmd.ExecuteNonQuery();
                 }
             }

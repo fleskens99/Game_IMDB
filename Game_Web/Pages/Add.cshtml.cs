@@ -9,9 +9,9 @@ namespace MyApp.Web.Pages.Games
 {
     public class AddModel : PageModel
     {
-        private readonly IAddGameService _gameService;
+        private readonly IGameService _gameService;
 
-        public AddModel(IAddGameService gameService)
+        public AddModel(IGameService gameService)
         {
             _gameService = gameService;
         }
@@ -32,7 +32,7 @@ namespace MyApp.Web.Pages.Games
             
         }
 
-        public async Task<IActionResult> OnPost(CancellationToken cancellationToken)
+        public async Task<IActionResult> OnPostAsync(CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid) return Page();
 
@@ -55,7 +55,7 @@ namespace MyApp.Web.Pages.Games
 
             try
             {
-                var newId = await _gameService.AddGame(dto, cancellationToken);
+                var newId = _gameService.AddGame(dto);
                 return RedirectToPage("/Index", new { id = newId });
             }
             catch (Exception ex)

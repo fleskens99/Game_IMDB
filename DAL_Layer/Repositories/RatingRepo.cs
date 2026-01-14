@@ -1,7 +1,6 @@
 ﻿using DAL;
 using DTOs;
 using Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
@@ -82,10 +81,10 @@ namespace Repos
             }
         }
 
-        public List<int> GetScoresFromGames(int gameId)
+        public List<Decimal> GetAverageScoreFromGames(int gameId)
         {
             const string sql = @"SELECT Score FROM dbo.Rating WHERE GameId = @GameId";
-            List<int> scores = new();
+            List<Decimal> scores = new();
             using (SqlConnection conn = new(DatabaseConnectionString.ConnectionString))
             {
                 conn.Open();
@@ -99,7 +98,7 @@ namespace Repos
                         {
                             if (!reader.IsDBNull(reader.GetOrdinal("Score")))
                             {
-                                scores.Add(reader.GetInt32(reader.GetOrdinal("Score")));
+                                scores.Add(reader.GetDecimal(reader.GetOrdinal("Score")));
                             }
                         }
 

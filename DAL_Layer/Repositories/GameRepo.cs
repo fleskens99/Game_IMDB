@@ -64,13 +64,43 @@ namespace Repos
 
         public void EditGame(GameDTO game)
         {
+            if (game == null) throw new ArgumentNullException(nameof(game));
 
+            const string sql = @"UPDATE Games SET Name = @Name, Category = @Category, Description = @Description, Picture = @Picture WHERE Id = @Id; ";
+
+            using (SqlConnection conn = new SqlConnection(DatabaseConnectionString.ConnectionString))
+            {
+                conn.Open();
+
+                using(SqlCommand cmd = new SqlCommand(sql,conn))
+                {
+                    cmd.Parameters.Add("@Id", SqlDbType.Int).Value = game.Id;
+                    cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 200).Value = game.Name;
+                    cmd.Parameters.Add("@Category", SqlDbType.NVarChar, 100).Value = game.Category;
+                    cmd.Parameters.Add("@Description", SqlDbType.NVarChar, -1).Value = game.Description;
+                    cmd.Parameters.Add("@Picture", SqlDbType.VarBinary, -1).Value = game.Picture;
+                    cmd.ExecuteNonQuery();
+                }
+
+            }
         }
+
 
         public void DeleteGame(int id)
         {
+            const string sql = @"DELETE FROM Games WHERE Id = @Id;";
 
+            using (SqlConnection conn = new SqlConnection(DatabaseConnectionString.ConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
+
 
         public GameDTO GetGameById(int id)
         {
@@ -115,7 +145,7 @@ namespace Repos
 
                 using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
-                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
 
                     var result = cmd.ExecuteScalar();
 
