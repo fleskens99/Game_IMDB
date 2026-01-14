@@ -28,15 +28,9 @@ namespace Repos
                             {
                                 Id = reader.GetInt32("Id"),
                                 Name = reader.GetString("Name"),
-                                Category = reader.IsDBNull(reader.GetOrdinal("Category"))
-                                    ? string.Empty
-                                    : reader.GetString("Category"),
-                                Description = reader.IsDBNull(reader.GetOrdinal("Description"))
-                                    ? string.Empty
-                                    : reader.GetString("Description"),
-                                Picture = reader.IsDBNull(reader.GetOrdinal("Picture"))
-                                    ? null
-                                    : (byte[])reader["Picture"]
+                                Category = reader.IsDBNull(reader.GetOrdinal("Category"))? string.Empty : reader.GetString("Category"),
+                                Description = reader.IsDBNull(reader.GetOrdinal("Description"))? string.Empty : reader.GetString("Description"),
+                                Picture = reader.IsDBNull(reader.GetOrdinal("Picture"))? null : (byte[])reader["Picture"]
                             });
                         }
                     }
