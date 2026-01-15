@@ -5,27 +5,24 @@
 }
 
 <link rel="stylesheet" href="~/css/Details.css" asp-append-version="true" />
-
+@if (Model.CanEdit)
+{
+    <a class="edit-btn"
+       asp-page="/Add"
+       asp-route-id="@Model.Game.Id">
+        Edit Game
+    </a>
+}
+<div class="details-floating-actions">
+    <a class="back-btn" asp-page="/Index" aria-label="Go back">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <polyline points="15 6 9 12 15 18" />
+        </svg>
+    </a>
+</div>
 <div class="details-page">
-
-    <div class="details-topbar">
-        <a class="back-btn" asp-page="/Index" aria-label="Go back">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-                <polyline points="15 6 9 12 15 18" />
-            </svg>
-        </a>
-
-        @if (Model.CanEdit)
-        {
-            <a class="edit-btn"
-               asp-page="/Add"
-               asp-route-id="@Model.Game.Id">
-                Edit Game
-            </a>
-        }
-    </div>
-
     <section class="details-hero">
+
         @if (Model.Game.Picture != null && Model.Game.Picture.Length > 0)
         {
             <img src="data:image/png;base64,@Convert.ToBase64String(Model.Game.Picture)"
@@ -85,7 +82,7 @@
             @if (User.Identity?.IsAuthenticated == true)
             {
                 <form method="post">
-                    <input type="hidden" asp-for="Rating.GameId" />
+                    <input type="hidden" name="Rating.GameId" value="@Model.Game.Id" />
 
                     <div class="add-comment">
                         <div class="add-comment-header">

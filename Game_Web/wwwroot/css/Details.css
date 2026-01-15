@@ -1,4 +1,8 @@
-﻿
+﻿:root {
+    --back-btn-gap: 40px;
+    --edit-btn-gap: 80px;
+}
+
 .details-page {
     max-width: 1200px;
     margin: 1.2rem auto;
@@ -6,52 +10,50 @@
     color: #D3DAD9;
 }
 
-/* ===== TOP BAR (independent from hero/grid) ===== */
-.details-topbar {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start; /* left side */
-    margin-bottom: 0.8rem; /* space before the hero */
+/* ===== OUTSIDE ACTION BUTTONS ===== */
+
+.details-floating-actions {
+    position: fixed;
+    top: 120px;
+    left: calc(50% - 640px - var(--back-btn-gap));
+    z-index: 10;
 }
 
-/* Thick arrow button */
 .back-btn {
-    display: inline-grid;
-    place-items: center;
-    width: 48px; /* size */
-    height: 48px;
-    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #1F1F23;
+    border: 1px solid rgba(255,255,255,0.25);
     text-decoration: none;
-    color: #FFFFFF;
-    background: rgba(0, 0, 0, 0.55);
-    border: 2px solid rgba(255, 255, 255, 0.35); /* thicker border to match “thicker” feel */
-    backdrop-filter: blur(4px);
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
-    transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
-    cursor: pointer;
 }
 
-    /* Thick chevron using SVG stroke */
     .back-btn .icon {
-        width: 26px; /* increase to make arrow thicker/larger */
-        height: 26px;
-        stroke: #FFFFFF;
-        stroke-width: 3.5; /* thickness of arrow */
+        width: 22px;
+        height: 22px;
+        stroke: white;
+        stroke-width: 3;
         fill: none;
-        stroke-linecap: round;
-        stroke-linejoin: round;
     }
 
-    .back-btn:hover {
-        background: rgba(0, 0, 0, 0.7);
-        transform: translateY(-1px);
-    }
+.edit-btn {
+    position: fixed;
+    top: 120px;
+    right: calc(50% - 640px - var(--edit-btn-gap));
+    z-index: 10;
+    background: #5E17EB;
+    color: white;
+    font-weight: 700;
+    padding: 0.45rem 1rem;
+    border-radius: 10px;
+    text-decoration: none;
+}
 
-    .back-btn:active {
-        transform: translateY(0);
-    }
+/* ===== HERO ===== */
 
-/* ===== HERO IMAGE ===== */
 .details-hero {
     width: 100%;
     height: 340px;
@@ -77,13 +79,16 @@
     color: rgba(211,218,217,0.7);
 }
 
-/* ===== DETAILS GRID ===== */
+/* ===== GRID ===== */
+
 .details-grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 1.2rem;
     margin-top: 1.1rem;
 }
+
+/* ===== CARDS ===== */
 
 .details-card {
     background: #2F2F33;
@@ -106,10 +111,14 @@
 }
 
 .details-desc {
+    max-width: 65ch;
     line-height: 1.6;
     opacity: 0.92;
-    margin: 0 0 1.2rem 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
+
+/* ===== COMMENTS ===== */
 
 .details-side-title {
     font-size: 1.1rem;
@@ -147,14 +156,13 @@
     align-items: center;
 }
 
+.comment-name {
+    font-weight: 900;
+}
+
 .comment-score {
     font-weight: 900;
     opacity: 0.85;
-}
-
-.comment-name {
-    font-weight: 900;
-    margin-bottom: 0.25rem;
 }
 
 .comment-body {
@@ -164,9 +172,14 @@
 }
 
 .comment-text {
-    opacity: 0.85;
+    max-width: 60ch;
     line-height: 1.35;
+    opacity: 0.85;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
+
+/* ===== ADD COMMENT ===== */
 
 .add-comment {
     margin-top: 1.2rem;
@@ -229,12 +242,11 @@
     .add-comment-text:focus {
         outline: none;
         border-color: rgba(211,218,217,0.35);
-        box-shadow: 0 0 0 2px rgba(211,218,217,0.05);
     }
 
 .comment-submit {
     margin-top: 0.4rem;
-    background: linear-gradient(135deg, #5E17EB, #7A3DF0);
+    background: #5E17EB;
     border: none;
     border-radius: 10px;
     padding: 0.6rem 0;
@@ -243,12 +255,8 @@
     cursor: pointer;
 }
 
-    .comment-submit:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 8px 18px rgba(122,61,240,0.35);
-    }
-
 /* ===== RESPONSIVE ===== */
+
 @media (max-width: 980px) {
     .details-grid {
         grid-template-columns: 1fr;
@@ -258,14 +266,11 @@
         height: 260px;
     }
 
-    .back-btn {
-        width: 44px;
-        height: 44px;
+    .details-floating-actions {
+        left: var(--back-btn-gap);
     }
 
-        .back-btn .icon {
-            width: 24px;
-            height: 24px;
-            stroke-width: 3.2;
-        }
+    .edit-btn {
+        right: var(--edit-btn-gap);
+    }
 }

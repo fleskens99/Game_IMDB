@@ -1,12 +1,10 @@
 ﻿@page
 @model MyApp.Web.Pages.Games.AddModel
-@{
-    ViewData["Title"] = Model.Exists.Id > 0 ? "Edit Game" : "Add Game";
-}
 
-<link rel="stylesheet" href="~/css/Add_Game.css" />
+<link rel="stylesheet" href="~/css/Add_Game.css" asp-append-version="true" />
 
-<div class="AddGame-page">
+<div class="AddGamePage">
+
     <div class="AddGame-header">
         <div class="AddGame-title">
             @(Model.Exists.Id > 0 ? "Edit Game" : "Add a new game")
@@ -22,28 +20,21 @@
 
             <div class="AddGame-group">
                 <label asp-for="Input.Name">Game Title</label>
-                <input asp-for="Input.Name" class="form-control" />
-                <span asp-validation-for="Input.Name" class="AddGame-hint"></span>
+                <input asp-for="Input.Name" class="AddGame-input" />
             </div>
 
             <div class="AddGame-group">
                 <label asp-for="Input.Description">Description</label>
                 <textarea asp-for="Input.Description"
                           rows="2"
-                          class="form-control"
-                          minlength="200"
-                          required
-                          placeholder="Write at least 200 characters..."></textarea>
-                <span asp-validation-for="Input.Description" class="AddGame-hint"></span>
+                          class="AddGame-textarea"></textarea>
             </div>
 
             <div class="AddGame-group">
                 <label asp-for="Input.Category">Category</label>
-
                 <input asp-for="Input.Category"
-                       class="form-control"
                        list="categoryList"
-                       placeholder="Type to search categories..." />
+                       class="AddGame-input" />
 
                 <datalist id="categoryList">
                     @foreach (var item in Model.CategoryOptions)
@@ -51,37 +42,30 @@
                         <option value="@item.Value"></option>
                     }
                 </datalist>
-
-                <span asp-validation-for="Input.Category" class="AddGame-hint"></span>
             </div>
 
-            <div class="AddGame-group AddGame-image-container">
+            <div class="AddGame-group">
                 <label for="fileInput" class="AddGame-image-clickarea">
-                    <img src="~/uploads/Pictures/Upload.png" alt="Upload" />
+                    <img src="~/uploads/Pictures/Upload.png" />
                 </label>
-
                 <input asp-for="Input.Picture"
                        id="fileInput"
                        type="file"
                        accept="image/*"
                        hidden />
-
-                <span asp-validation-for="Input.Picture" class="AddGame-hint"></span>
             </div>
 
             <div class="AddGame-buttons">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn-edit">
                     @(Model.Exists.Id > 0 ? "Update Game" : "Submit Game")
                 </button>
 
                 @if (Model.Exists.Id > 0)
                 {
                     <button type="submit"
-                            class="btn btn-danger"
-                            formmethod="post"
-                            formaction="?handler=Delete"
-                            onclick="return confirm('Are you sure you want to delete this game?');">
-                        Delete Game
+                            class="btn-delete"
+                            formaction="?handler=Delete">
+                        <img src="~/uploads/Pictures/Delete.png" />
                     </button>
                 }
             </div>

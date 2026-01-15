@@ -13,13 +13,13 @@ namespace Game_Web.Pages
         private readonly IGameService _gameService;
         private readonly IRatingService _ratingService;
         private readonly IUserService _userService;
-
         [BindProperty]
         public GameDetailsViewModel Game { get; set; } = null!;
         public bool CanEdit { get; private set; }
         public List<RatingOnGameViewModel> Comments { get; set; } = new();
         public string UserName { get; set; } = string.Empty;
         public bool HasUserCommented { get; set; }
+        [BindProperty]
         public RatingOnGameViewModel Rating { get; set; } = new();
 
         public DetailsModel(IGameService gameService, IRatingService ratingService, IUserService userService)

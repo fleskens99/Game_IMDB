@@ -1,121 +1,97 @@
-﻿/* Page container */
-.AddGame-page {
+﻿/* PAGE WRAPPER */
+.AddGamePage {
     width: 100%;
-    max-width: 1300px; /* Wider container */
-    margin: 2rem auto;
+    max-width: 1300px;
+    margin: 1rem auto 2rem;
     padding: 2.5rem;
-    background: #44444E; /* Correct background */
-    color: #D3DAD9; /* Correct text color */
+    background: #44444E;
+    color: #D3DAD9;
     border-radius: 12px;
 }
 
-/* Header */
-.AddGame-header {
-    margin-bottom: 1.5rem;
-}
+    .AddGamePage .AddGame-title {
+        font-size: 2rem;
+        font-weight: 700;
+    }
 
-.AddGame-title {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #D3DAD9;
-}
+    .AddGamePage .AddGame-left {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
 
-/* Form layout — now ONE COLUMN ONLY */
-.AddGame-form {
-    display: block; /* Removes the 2-column grid */
-}
+    .AddGamePage .AddGame-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
 
-/* Left side spacing */
-.AddGame-left {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
+        .AddGamePage .AddGame-group label {
+            font-weight: 600;
+        }
 
-/* Form groups */
-.AddGame-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-}
-
-    .AddGame-group label {
-        font-weight: 600;
+    .AddGamePage .AddGame-input,
+    .AddGamePage .AddGame-textarea {
+        background: #1D1616;
+        border: 1px solid #5A5A65;
         color: #D3DAD9;
+        border-radius: 8px;
+        padding: 0.7rem;
+        width: 100%;
     }
 
-/* Inputs */
-.AddGame-page input,
-.AddGame-page textarea {
-    background: #1D1616; /* Updated background */
-    border: 1px solid #5A5A65;
-    color: #D3DAD9;
-    border-radius: 8px;
-    padding: 0.7rem;
-    width: 100%;
-}
+        .AddGamePage .AddGame-input:focus,
+        .AddGamePage .AddGame-textarea:focus {
+            border-color: #8AB4FF;
+            outline: none;
+        }
 
-    .AddGame-page input:focus,
-    .AddGame-page textarea:focus {
-        border-color: #8AB4FF;
-        outline: none;
+    .AddGamePage .AddGame-image-clickarea {
+        height: 180px;
+        background: #1D1616;
+        border: 2px dashed #5A5A65;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
     }
 
+        .AddGamePage .AddGame-image-clickarea img {
+            width: 120px;
+            height: 80px;
+        }
 
-.AddGame-image-container {
-    width: 100%;
-}
-
-/* Clickable area */
-.AddGame-image-clickarea {
-    width: 100%;
-    height: 180px;
-    background: #1D1616; /* Updated background */
-    border: 2px dashed #5A5A65; /* Same border style */
-    border-radius: 8px; /* Matches input fields */
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.2s ease;
-}
-
-    .AddGame-image-clickarea:hover {
-        background: #2A2020; /* Slightly lighter hover */
-        border-color: #8AB4FF;
+    .AddGamePage .AddGame-buttons {
+        display: flex;
+        gap: 12px;
+        margin-top: 1rem;
+        align-items: stretch;
     }
 
-    /* Centered image */
-    .AddGame-image-clickarea img {
-        width: 120px;
-        height: 80px;
-        opacity: 0.8;
+    .AddGamePage .btn-edit {
+        flex: 1;
+        height: 48px;
+        background: #D3DAD9;
+        color: #000;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
     }
 
-/* Hint text */
-.AddGame-hint {
-    font-size: 0.85rem;
-    opacity: 0.7;
-}
+    .AddGamePage .btn-delete {
+        width: 48px;
+        height: 48px;
+        background: #1D1616;
+        border: 1px solid #5A5A65;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
 
-/* Buttons */
-.AddGame-buttons {
-    margin-top: 1rem;
-}
-
-.AddGame-buttons button {
-    width: 100%;                /* Full width */
-    background: #D3DAD9;        /* Light background */
-    color: #000000;             /* Black text */
-    border: none;
-    padding: 0.9rem;
-    border-radius: 8px;         /* Same rounded corners as fields */
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-.AddGame-buttons button:hover {
-    background: #715A5A;        /* Hover color */
-    color: #D3DAD9;             /* Optional: keeps contrast readable */
-}
+        .AddGamePage .btn-delete img {
+            width: 22px;
+            height: 22px;
+        }

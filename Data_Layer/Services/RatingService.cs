@@ -1,13 +1,11 @@
 ﻿using DTOs;
 using Interfaces;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace Services
 {
     public class RatingService : IRatingService
     {
         private readonly IRatingRepo _ratingRepo;
-        public int AverageRating { get; private set; }
 
         public RatingService(IRatingRepo ratingRepo)
         {

@@ -1,10 +1,5 @@
-﻿
-using DTOs;
-using Entities;
-using Interfaces;
+﻿using Interfaces;
 using Microsoft.AspNetCore.Identity;
-using Services;
-using System.Security.Claims;
 
 namespace Logic.Services
 {

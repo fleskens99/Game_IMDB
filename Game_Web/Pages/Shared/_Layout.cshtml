@@ -1,14 +1,4 @@
-﻿@using System.Security.Claims
-@using Microsoft.AspNetCore.Http
-@inject IHttpContextAccessor HttpContextAccessor
-
-@{bool isAdmin = User?.Identity?.IsAuthenticated == true && User.IsInRole("Admin");}
-
-
-
-
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -16,7 +6,9 @@
     <title>@ViewData["Title"] - Game_Web</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/style.css" />
+
+    @RenderSection("Styles", required: false)
 </head>
 
 <body>
@@ -30,11 +22,10 @@
             </div>
 
             <div class="Nav-center">
-                @if (isAdmin)
+                @if (User?.Identity?.IsAuthenticated == true && User.IsInRole("Admin"))
                 {
                     <a class="Nav-link @IsActive("/Add")" asp-page="/Add">Add Game</a>
                 }
-
                 <a class="Nav-link @IsActive("/Ranking")" asp-page="/Ranking">Ranking</a>
                 <a class="Nav-link @IsActive("/YourGames")" asp-page="/YourGames">Your Games</a>
             </div>
@@ -54,7 +45,6 @@
                     </a>
                 }
             </div>
-
         </nav>
     </header>
 

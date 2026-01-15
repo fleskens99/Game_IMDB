@@ -11,7 +11,7 @@ namespace Repos
     {
         public int AddGame(GameDTO game)
         {
-            const string sql = @"INSERT INTO dbo.Game (Name, Description, Category, Picture, CreatedByUserId) OUTPUT INSERTED.Id VALUES (@Name, @Description, @Category, @Picture, @CreatedByUserId); ";
+            const string sql = @"INSERT INTO dbo.Game (Name, Description, Category, Picture, UserId) OUTPUT INSERTED.Id VALUES (@Name, @Description, @Category, @Picture, @UserId); ";
 
             using (SqlConnection conn = new SqlConnection(DatabaseConnectionString.ConnectionString))
             {
@@ -23,7 +23,7 @@ namespace Repos
                     cmd.Parameters.Add("@Description", SqlDbType.NVarChar, -1).Value = game.Description;
                     cmd.Parameters.Add("@Category", SqlDbType.NVarChar, 100).Value = game.Category;
                     cmd.Parameters.Add("@Picture", SqlDbType.VarBinary, -1).Value = game.Picture;
-                    cmd.Parameters.Add("@CreatedByUserId", SqlDbType.Int).Value = game.CreatedByUserId;
+                    cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = game.CreatedByUserId;
 
                     object? newIdObj = cmd.ExecuteScalar();
                     return Convert.ToInt32(newIdObj);
@@ -105,7 +105,7 @@ namespace Repos
 
         public GameDTO? GetGameById(int id)
         {
-            const string sql = "SELECT Id, Name, Category, Description, Picture, CreatedByUserId FROM dbo.Game WHERE Id = @Id";
+            const string sql = "SELECT Id, Name, Category, Description, Picture, UserId FROM dbo.Game WHERE Id = @Id";
 
             using var conn = new SqlConnection(DatabaseConnectionString.ConnectionString);
             conn.Open();
@@ -123,7 +123,7 @@ namespace Repos
                 Category = reader.IsDBNull(reader.GetOrdinal("Category")) ? string.Empty : reader.GetString(reader.GetOrdinal("Category")),
                 Description = reader.IsDBNull(reader.GetOrdinal("Description")) ? string.Empty : reader.GetString(reader.GetOrdinal("Description")),
                 Picture = reader.IsDBNull(reader.GetOrdinal("Picture")) ? null : (byte[])reader["Picture"],
-                CreatedByUserId = reader.GetInt32(reader.GetOrdinal("CreatedByUserId")),
+                CreatedByUserId = reader.GetInt32(reader.GetOrdinal("UserId")),
             };
         }
 
