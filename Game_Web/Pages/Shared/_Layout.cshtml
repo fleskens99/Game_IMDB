@@ -1,4 +1,12 @@
 ﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{bool isAdmin = User?.Identity?.IsAuthenticated == true && User.IsInRole("Admin");}
+
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +30,11 @@
             </div>
 
             <div class="Nav-center">
-                <a class="Nav-link @IsActive("/Add")" asp-page="/Add">Add Game</a>
+                @if (isAdmin)
+                {
+                    <a class="Nav-link @IsActive("/Add")" asp-page="/Add">Add Game</a>
+                }
+
                 <a class="Nav-link @IsActive("/Ranking")" asp-page="/Ranking">Ranking</a>
                 <a class="Nav-link @IsActive("/YourGames")" asp-page="/YourGames">Your Games</a>
             </div>

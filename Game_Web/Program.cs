@@ -1,14 +1,17 @@
+
 using Interfaces;
 using Logic.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Repo;
 using Repos;
-using Services; 
+using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Register services BEFORE Build
 builder.Services.AddRazorPages();
+
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddScoped<IGameRepo, GameRepo>();
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
@@ -21,14 +24,21 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/Account/Login";
         options.LogoutPath = "/Account/Logout";
-        options.AccessDeniedPath = "/Account/Login";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+
+        // Optional hardening
+        options.Cookie.Name = "GameIMDB.Auth";
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always; 
+        options.Cookie.SameSite = SameSiteMode.Lax;
+        options.SlidingExpiration = true;
+        options.ExpireTimeSpan = TimeSpan.FromDays(7); 
     });
 
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// Middleware ordering
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
@@ -44,4 +54,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
 app.Run();

@@ -10,7 +10,7 @@ namespace Interfaces
         public void DeleteGame(int id);
         public GameDTO GetGameById(int id);
         public byte[]? GetImageBlob(int id);
-
+        public bool CanEditGame(int gameId, int userId, bool isAdmin);
 
     }
 

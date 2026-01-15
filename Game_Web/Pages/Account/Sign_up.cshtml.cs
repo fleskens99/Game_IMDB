@@ -1,10 +1,12 @@
 using Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ViewModels;
+using Presentation.ViewModels.Account;
 
 namespace Game_Web.Pages.Account
 {
+    [AllowAnonymous]
     public class Sign_UpModel : PageModel
     {
 
@@ -17,8 +19,12 @@ namespace Game_Web.Pages.Account
         [BindProperty]
         public RegisteredUserVM Input { get; set; } = new();
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            if (User?.Identity?.IsAuthenticated == true) return RedirectToPage("/Index");
+
+            return Page();
+
         }
 
         public IActionResult OnPost()

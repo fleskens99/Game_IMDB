@@ -11,7 +11,7 @@ namespace Repos
     {
         public int AddGame(GameDTO game)
         {
-            const string sql = @"INSERT INTO dbo.Game (Name, Description, Category, Picture) OUTPUT INSERTED.Id VALUES (@Name, @Description, @Category, @Picture); ";
+            const string sql = @"INSERT INTO dbo.Game (Name, Description, Category, Picture, CreatedByUserId) OUTPUT INSERTED.Id VALUES (@Name, @Description, @Category, @Picture, @CreatedByUserId); ";
 
             using (SqlConnection conn = new SqlConnection(DatabaseConnectionString.ConnectionString))
             {
@@ -19,12 +19,13 @@ namespace Repos
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
-                    cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 200).Value = game.Id;
+                    cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 200).Value = game.Name;
                     cmd.Parameters.Add("@Description", SqlDbType.NVarChar, -1).Value = game.Description;
-                    cmd.Parameters.Add("@Category", SqlDbType.NVarChar, 100).Value = game.Name;
+                    cmd.Parameters.Add("@Category", SqlDbType.NVarChar, 100).Value = game.Category;
                     cmd.Parameters.Add("@Picture", SqlDbType.VarBinary, -1).Value = game.Picture;
+                    cmd.Parameters.Add("@CreatedByUserId", SqlDbType.Int).Value = game.CreatedByUserId;
 
-                    object? newIdObj = cmd.ExecuteScalarAsync();
+                    object? newIdObj = cmd.ExecuteScalar();
                     return Convert.ToInt32(newIdObj);
                 }
             }
@@ -66,7 +67,7 @@ namespace Repos
         {
             if (game == null) throw new ArgumentNullException(nameof(game));
 
-            const string sql = @"UPDATE Games SET Name = @Name, Category = @Category, Description = @Description, Picture = @Picture WHERE Id = @Id; ";
+            const string sql = @"UPDATE Game SET Name = @Name, Category = @Category, Description = @Description, Picture = @Picture WHERE Id = @Id; ";
 
             using (SqlConnection conn = new SqlConnection(DatabaseConnectionString.ConnectionString))
             {
@@ -88,7 +89,7 @@ namespace Repos
 
         public void DeleteGame(int id)
         {
-            const string sql = @"DELETE FROM Games WHERE Id = @Id;";
+            const string sql = @"DELETE FROM Game WHERE Id = @Id;";
 
             using (SqlConnection conn = new SqlConnection(DatabaseConnectionString.ConnectionString))
             {
@@ -102,37 +103,28 @@ namespace Repos
         }
 
 
-        public GameDTO GetGameById(int id)
+        public GameDTO? GetGameById(int id)
         {
-            GameDTO? game = null;
+            const string sql = "SELECT Id, Name, Category, Description, Picture, CreatedByUserId FROM dbo.Game WHERE Id = @Id";
 
-            using (SqlConnection conn = new SqlConnection(DatabaseConnectionString.ConnectionString))
+            using var conn = new SqlConnection(DatabaseConnectionString.ConnectionString);
+            conn.Open();
+
+            using var cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+
+            using var reader = cmd.ExecuteReader();
+            if (!reader.Read()) return null;
+
+            return new GameDTO
             {
-                conn.Open();
-
-                const string query = "SELECT Id, Name, Category, Description, Picture FROM dbo.Game WHERE Id = @Id";
-
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Id", id);
-
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            game = new GameDTO
-                            {
-                                Id = reader.GetInt32("Id"),
-                                Name = reader.IsDBNull(reader.GetOrdinal("Name")) ? string.Empty : reader.GetString("Name"),
-                                Category = reader.IsDBNull(reader.GetOrdinal("Category")) ? string.Empty : reader.GetString("Category"),
-                                Description = reader.IsDBNull(reader.GetOrdinal("Description")) ? string.Empty : reader.GetString("Description"),
-                                Picture = reader.IsDBNull(reader.GetOrdinal("Picture")) ? null : (byte[])reader["Picture"]
-                            };
-                        }
-                    }
-                }
-                return game!;
-            }
+                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                Name = reader.IsDBNull(reader.GetOrdinal("Name")) ? string.Empty : reader.GetString(reader.GetOrdinal("Name")),
+                Category = reader.IsDBNull(reader.GetOrdinal("Category")) ? string.Empty : reader.GetString(reader.GetOrdinal("Category")),
+                Description = reader.IsDBNull(reader.GetOrdinal("Description")) ? string.Empty : reader.GetString(reader.GetOrdinal("Description")),
+                Picture = reader.IsDBNull(reader.GetOrdinal("Picture")) ? null : (byte[])reader["Picture"],
+                CreatedByUserId = reader.GetInt32(reader.GetOrdinal("CreatedByUserId")),
+            };
         }
 
         public byte[]? GetImageBlob(int id)
@@ -155,6 +147,7 @@ namespace Repos
                 }
             }
         }
+
     }
 
 }

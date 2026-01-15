@@ -1,5 +1,5 @@
 ﻿using DTOs;
-using ViewModels;
+using Presentation.ViewModels.Account;
 
 namespace VmMapper
 {

@@ -41,13 +41,13 @@ namespace Services
             return _ratingRepo.UserHasRated(userId, gameId);
         }
 
-        public int GetAverageScoreFromGames(int gameId)
+        public double GetAverageScoreFromGames(int gameId)
         {
             var scores = _ratingRepo.GetAverageScoreFromGames(gameId);
 
             if (scores == null || scores.Count == 0) return 0;
 
-            return (int)scores.Average();
+            return (double)scores.Average();
         }
 
 

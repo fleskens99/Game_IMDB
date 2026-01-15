@@ -7,5 +7,6 @@
         public string Category { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public byte[]? Picture { get; set; }
+        public int CreatedByUserId { get; set; }
     }
 }

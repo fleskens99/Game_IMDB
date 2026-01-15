@@ -21,12 +21,21 @@
     flex: 0 0 auto;
 }
 
-.Nav-center {
-    flex: 1;
-    justify-content: flex-start;
-    gap: 7rem;
-    margin-left: 20rem;
+.Nav-left,
+.Nav-right {
+    flex: 0 0 auto;
 }
+
+.Nav-center {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+}
+
+
+
+
 
 .Nav-right {
     margin-left: auto;

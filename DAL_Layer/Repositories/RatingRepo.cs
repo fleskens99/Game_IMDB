@@ -11,7 +11,7 @@ namespace Repos
     {
         public int AddRating(RatingDTO Rating)
         {
-            const string sql = @"INSERT INTO dbo.Rating (UserId, GameId, Score, Comment OUTPUT INSERTED.Id VALUES (@UserId, @GameId, @Score, @Comment);";
+            const string sql = @"INSERT INTO dbo.Rating (UserId, GameId, Score, Comment) OUTPUT INSERTED.Id VALUES (@UserId, @GameId, @Score, @Comment);";
 
             using (SqlConnection conn = new SqlConnection(DatabaseConnectionString.ConnectionString))
             {
@@ -21,7 +21,7 @@ namespace Repos
                 {
                     cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = Rating.UserId;
                     cmd.Parameters.Add("@GameId", SqlDbType.Int).Value = Rating.GameId;
-                    cmd.Parameters.Add("@Score", SqlDbType.Int).Value = Rating.Score;
+                    cmd.Parameters.Add("@Score", SqlDbType.Decimal).Value = Rating.Score;
                     cmd.Parameters.Add("@Comment", SqlDbType.NVarChar, 500).Value = Rating.Comment;
 
                     int newId = (int)cmd.ExecuteScalar();

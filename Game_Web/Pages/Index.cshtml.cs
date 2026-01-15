@@ -1,4 +1,3 @@
-using DTOs;
 using Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,7 +11,7 @@ public class IndexModel : PageModel
     private readonly IGameService _gameService;
     private readonly IRatingService _ratingService;
     [BindProperty]
-    public List<GameWithRatingViewModel> Games { get; set; } = new();
+    public List<GameIndexViewModel> Games { get; set; } = new();
 
 
     public IndexModel(IGameService gameService, IRatingService ratingService)
@@ -25,13 +24,13 @@ public class IndexModel : PageModel
     public void OnGet()
     {
         var games = _gameService.GetGames();
-        Games = new List<GameWithRatingViewModel>();
+        Games = new List<GameIndexViewModel>();
 
         foreach (var game in games)
         {
-            int avg = _ratingService.GetAverageScoreFromGames(game.Id);
+            double avg = _ratingService.GetAverageScoreFromGames(game.Id);
 
-            Games.Add(GameWithRatingVmMapper.ToViewModel(game, avg));
+            Games.Add(GameVmMapper.ToIndexViewModel(game, avg));
         }
     }
 

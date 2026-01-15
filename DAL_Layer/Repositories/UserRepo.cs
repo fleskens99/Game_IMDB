@@ -1,4 +1,5 @@
 ﻿using DAL;
+using DTOs;
 using Interfaces;
 using Microsoft.Data.SqlClient;
 using System.Data;
@@ -28,9 +29,9 @@ namespace Repo
             }
         }
 
-        public (int Id, string Name, string Email, string Password)? GetByEmail(string email)
+        public (int Id, string Name, string Email, string Password, bool Admin)? GetByEmail(string email)
         {
-            const string sql = @"SELECT TOP 1 Id, Name, Email, Password FROM dbo.Users WHERE Email = @Email;";
+            const string sql = @"SELECT TOP 1 Id, Name, Email, Password, Admin FROM dbo.Users WHERE Email = @Email;";
 
             using (SqlConnection conn = new SqlConnection(DatabaseConnectionString.ConnectionString))
             {
@@ -47,7 +48,8 @@ namespace Repo
                         reader.GetInt32(reader.GetOrdinal("Id")),
                         reader.GetString(reader.GetOrdinal("Name")),
                         reader.GetString(reader.GetOrdinal("Email")),
-                        reader.GetString(reader.GetOrdinal("Password")));
+                        reader.GetString(reader.GetOrdinal("Password")),
+                        reader.GetBoolean(reader.GetOrdinal("Admin")));
                     }
                 }
             }
@@ -105,6 +107,36 @@ namespace Repo
                     cmd.Parameters.Add("@Id", SqlDbType.Int).Value = userId;
                     cmd.Parameters.Add("@PasswordHash", SqlDbType.NVarChar, 255).Value = newPasswordHash;
                     cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        public List<(int Id, string Name)> GetUsersByIds(IEnumerable<int> userIds)
+        {
+            var ids = userIds?.Distinct().ToList() ?? new List<int>();
+            var result = new List<(int Id, string Name)>();
+
+            if (ids.Count == 0) return result;
+
+            string sql = $"SELECT Id, Name FROM dbo.Users WHERE Id IN ({string.Join(",", ids)});";
+
+            using (SqlConnection conn = new SqlConnection(DatabaseConnectionString.ConnectionString))
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            result.Add((
+                                reader.GetInt32(reader.GetOrdinal("Id")),
+                                reader.GetString(reader.GetOrdinal("Name"))
+                            ));
+                        }
+
+                    }
+                    return result;
                 }
             }
         }

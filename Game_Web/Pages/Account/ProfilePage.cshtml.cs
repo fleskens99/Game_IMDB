@@ -1,4 +1,5 @@
 using Interfaces;
+using ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -18,19 +19,15 @@ public class ProfilePageModel : PageModel
         _userService = userService;
     }
 
-    public string DisplayName { get; private set; } = "User";
-    public string Email { get; private set; } = "—";
+    public UserAccountViewModel Details { get; set; } = new UserAccountViewModel();
 
     [BindProperty]
-    public string OldPassword { get; set; } = "";
-
-    [BindProperty]
-    public string NewPassword { get; set; } = "";
+    public UserChangePasswordViewModel PasswordChange { get; set; } = new UserChangePasswordViewModel();
 
     public void OnGet()
     {
-        DisplayName = User.Identity?.Name ?? "User";
-        Email = User.FindFirstValue(ClaimTypes.Email) ?? "—";
+        Details.Name = User.Identity?.Name ?? "User";
+        Details.Email = User.FindFirstValue(ClaimTypes.Email) ?? "—";
     }
 
     public IActionResult OnPostLogout()
@@ -43,10 +40,10 @@ public class ProfilePageModel : PageModel
 
     public IActionResult OnPostChangePassword()
     {
-        DisplayName = User.Identity?.Name ?? "User";
-        Email = User.FindFirstValue(ClaimTypes.Email) ?? "—";
+        Details.Name = User.Identity?.Name ?? "User";
+        Details.Email = User.FindFirstValue(ClaimTypes.Email) ?? "—";
 
-        if (string.IsNullOrWhiteSpace(OldPassword) || string.IsNullOrWhiteSpace(NewPassword))
+        if (string.IsNullOrWhiteSpace(PasswordChange.OldPassword) || string.IsNullOrWhiteSpace(PasswordChange.NewPassword))
         {
             ModelState.AddModelError(string.Empty, "Please fill in both password fields.");
             return Page();
@@ -61,7 +58,7 @@ public class ProfilePageModel : PageModel
 
         try
         {
-            _userService.ChangePassword(userId, OldPassword, NewPassword);
+            _userService.ChangePassword(userId, PasswordChange.OldPassword, PasswordChange.NewPassword);
             return RedirectToPage(); 
         }
         catch (Exception ex)
