@@ -15,7 +15,8 @@ namespace Mapper
                 Name = gameDto.Name,
                 Category = gameDto.Category,
                 Description = gameDto.Description,
-                Picture = gameDto.Picture
+                Picture = gameDto.Picture,
+                CreatedByUserId = gameDto.CreatedByUserId
             };
         }
         public GameDTO Mapper(Game game) 
@@ -27,7 +28,8 @@ namespace Mapper
                 Name = game.Name,
                 Category = game.Category,
                 Description = game.Description,
-                Picture = game.Picture
+                Picture = game.Picture,
+                CreatedByUserId = game.CreatedByUserId
             };
         }
     }
