@@ -4,9 +4,27 @@
     ViewData["Title"] = "Game Details";
 }
 
-<link rel="stylesheet" href="~/css/Details.css" />
+<link rel="stylesheet" href="~/css/Details.css" asp-append-version="true" />
 
 <div class="details-page">
+
+    <div class="details-topbar">
+        <a class="back-btn" asp-page="/Index" aria-label="Go back">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <polyline points="15 6 9 12 15 18" />
+            </svg>
+        </a>
+
+        @if (Model.CanEdit)
+        {
+            <a class="edit-btn"
+               asp-page="/Add"
+               asp-route-id="@Model.Game.Id">
+                Edit Game
+            </a>
+        }
+    </div>
+
     <section class="details-hero">
         @if (Model.Game.Picture != null && Model.Game.Picture.Length > 0)
         {
@@ -31,6 +49,7 @@
                 @Model.Game.Description
             </p>
         </article>
+
         <aside class="details-card details-card--side">
             <div class="details-side-title">User Comments</div>
 
@@ -40,13 +59,15 @@
                 {
                     <div class="comment">
                         <div class="avatar">
-                            @Model.UserName.Substring(0, 1).ToUpper()
+                            @comment.UserName.Substring(0, 1).ToUpper()
                         </div>
 
                         <div class="comment-body">
                             <div class="comment-header">
-                                <span class="comment-name">@Model.UserName</span>
-                                <span class="comment-score">@comment.Score/5</span>
+                                <span class="comment-name">@comment.UserName</span>
+                                <span class="comment-score">
+                                    @Math.Round(comment.Score, 0, MidpointRounding.AwayFromZero)/5
+                                </span>
                             </div>
 
                             <div class="comment-text">
@@ -54,15 +75,14 @@
                             </div>
                         </div>
                     </div>
-
                 }
             }
             else
             {
                 <p class="no-comments">No comments yet. Be the first to comment!</p>
             }
-            @if (User.Identity?.IsAuthenticated == true)
 
+            @if (User.Identity?.IsAuthenticated == true)
             {
                 <form method="post">
                     <input type="hidden" asp-for="Rating.GameId" />
@@ -75,7 +95,8 @@
                                        class="rating-input"
                                        type="number"
                                        min="0"
-                                       max="5" />
+                                       max="5"
+                                       step="0.1" />
                                 <span class="rating-max">/5</span>
                             </div>
                         </div>
@@ -84,11 +105,10 @@
                                   class="add-comment-text"
                                   placeholder="Share your thoughts about this game..."
                                   rows="3"></textarea>
+
                         @if (!Model.HasUserCommented)
                         {
-                            <button type="submit" class="comment-submit">
-                                Post Comment
-                            </button>
+                            <button type="submit" class="comment-submit">Post Comment</button>
                         }
                         else
                         {
@@ -103,6 +123,5 @@
             }
 
         </aside>
-
     </section>
 </div>

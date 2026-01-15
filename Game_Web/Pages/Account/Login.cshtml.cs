@@ -1,49 +1,67 @@
 using Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Presentation.ViewModels;
+using Presentation.ViewModels.Account;
 using System.Security.Claims;
 
-namespace Game_Web.Pages.Account;
-
-public class LoginModel : PageModel
+namespace Game_Web.Pages.Account
 {
-    private readonly IUserService _userService;
-    public LoginModel(IUserService userService)
+    [AllowAnonymous]
+    public class LoginModel : PageModel
     {
-        _userService = userService;
-    }
-
-    [BindProperty]
-    public LogedInVm Input { get; set; } = new();
-
-    public void OnGet() { }
-
-    public IActionResult OnPost()
-    {
-        if (!ModelState.IsValid) return Page();
-
-        var user = _userService.ValidateLogin(Input.Email, Input.Password, Input.Admin);
-        if (user == null)
+        private readonly IUserService _userService;
+        public LoginModel(IUserService userService)
         {
-            ModelState.AddModelError(string.Empty, "Invalid email or password.");
-            return Page();
+            _userService = userService;
         }
 
-        List<Claim> claims = new List<Claim>
+        [BindProperty]
+        public LogedInVm Input { get; set; } = new();
+
+        public IActionResult OnGet() 
+        {
+
+            if (User?.Identity?.IsAuthenticated == true)
+            return RedirectToPage("/Index");
+
+            return Page();
+
+        }
+
+        public IActionResult OnPost()
+        {
+            if (!ModelState.IsValid) return Page();
+
+            var user = _userService.ValidateLogin(Input.Email, Input.Password);
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid email or password.");
+                return Page();
+            }
+
+            List<Claim> claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Value.Id.ToString()),
             new Claim(ClaimTypes.Name, user.Value.Name),
             new Claim(ClaimTypes.Email, user.Value.Email),
         };
 
-        ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+            if (user.Value.Admin)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+            }
 
-        HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal).GetAwaiter().GetResult();
 
-        return RedirectToPage("/Index");
+            ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+
+            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal).GetAwaiter().GetResult();
+
+            return RedirectToPage("/Index");
+        }
     }
 }
+

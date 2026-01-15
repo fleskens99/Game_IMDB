@@ -47,10 +47,11 @@
     letter-spacing: 0.4px;
 }
 
+
 .Log-Out-Btn {
-    width: 68%;
+    width: 100%; 
     border-radius: 16px;
-    padding: 6px 10px;
+    padding: 4px 30px; 
     font-weight: 900;
     cursor: pointer;
     background: rgba(255, 90, 90, 0.14);
@@ -60,12 +61,13 @@
     box-shadow: 0 10px 26px rgba(0,0,0,0.20);
 }
 
-    .Log-Out-Btn:hover {
-        transform: scale(1.06);
-        background: rgba(255, 90, 90, 0.20);
-        border-color: rgba(255, 176, 176, 0.45);
-        box-shadow: 0 14px 34px rgba(0,0,0,0.28);
-    }
+
+.Log-Out-Btn:hover {
+    transform: scale(1.06);
+    background: rgba(255, 90, 90, 0.20);
+    border-color: rgba(255, 176, 176, 0.45);
+    box-shadow: 0 14px 34px rgba(0,0,0,0.28);
+}
 
     .Log-Out-Btn:active {
         transform: scale(1.02);

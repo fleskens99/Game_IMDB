@@ -9,5 +9,6 @@ namespace Interfaces
         byte[]? GetPictureById(long id);
         public void UpdatePasswordHash(long userId, string newPasswordHash);
         public string? GetPasswordHashById(long userId);
+        public List<(int Id, string Name)> GetUsersByIds(IEnumerable<int> userIds);
     }
 }

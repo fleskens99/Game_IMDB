@@ -14,7 +14,6 @@ namespace Services
 
         public int AddGame(GameDTO game)
         {
-
             if (game is null) throw new ArgumentNullException(nameof(game));
             if (string.IsNullOrWhiteSpace(game.Name)) throw new ArgumentException("Title is required.", nameof(game.Name));
             if (string.IsNullOrWhiteSpace(game.Category)) throw new ArgumentException("Category is required.", nameof(game.Category));
@@ -23,7 +22,7 @@ namespace Services
             game.Category = game.Category.Trim();
             game.Description = game.Description?.Trim();
 
-            var newId =  _repository.AddGame(game);
+            var newId = _repository.AddGame(game);
             return newId;
         }
 
@@ -47,11 +46,10 @@ namespace Services
         public void DeleteGame(int id)
         {
             if (id <= 0) throw new ArgumentException("Invalid game ID.", nameof(id));
-
             _repository.DeleteGame(id);
         }
 
-        public GameDTO GetGameById(int id)
+        public GameDTO? GetGameById(int id)
         {
             return _repository.GetGameById(id);
         }
@@ -59,6 +57,14 @@ namespace Services
         public byte[]? GetImageBlob(int id)
         {
             return _repository.GetImageBlob(id);
+        }
+
+        public bool CanEditGame(int gameId, int userId, bool isAdmin)
+        {
+            if (isAdmin) return true;
+            if (userId <= 0) return false;
+            var game = _repository.GetGameById(gameId);
+            return game != null && game.CreatedByUserId == userId;
         }
     }
 }

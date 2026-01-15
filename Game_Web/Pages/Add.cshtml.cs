@@ -1,67 +1,120 @@
-﻿using DTOs;
+﻿
+using GameList;
 using Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
-
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
+using ViewModels;
+using VmMapper;
 
 namespace MyApp.Web.Pages.Games
 {
+    [Authorize(Roles = "Admin")]
     public class AddModel : PageModel
     {
         private readonly IGameService _gameService;
 
         public AddModel(IGameService gameService)
         {
-            _gameService = gameService;
+            _gameService = gameService ?? throw new ArgumentNullException(nameof(gameService));
         }
 
         [BindProperty]
-        public InputModel Input { get; set; } = new();
+        public AddGameViewModel Input { get; set; } = new();
 
-        public class InputModel
+        [BindProperty(SupportsGet = true)]
+        public GameIndexViewModel Exists { get; set; } = new();
+
+        public List<SelectListItem> CategoryOptions { get; private set; } = new();
+
+        public IActionResult OnGet(int? id)
         {
-            public string Title { get; set; } = string.Empty;
-            public string? Description { get; set; }
-            public string Category { get; set; } = string.Empty;
-            public IFormFile? Picture { get; set; }
-        }
+            LoadCategoryOptions();
 
-        public void OnGet() 
-        {
-            
-        }
-
-        public async Task<IActionResult> OnPostAsync(CancellationToken cancellationToken)
-        {
-            if (!ModelState.IsValid) return Page();
-
-            byte[]? picture = null;
-
-            if (Input.Picture != null && Input.Picture.Length > 0)
+            if (id.HasValue)
             {
-                using var ms = new MemoryStream();
-                await Input.Picture.CopyToAsync(ms, cancellationToken);
-                picture = ms.ToArray();
+                Exists.Id = id.Value;
+
+                var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
+                if (!_gameService.CanEditGame(id.Value, currentUserId, User.IsInRole("Admin")))
+                    return Forbid();
+
+                var game = _gameService.GetGameById(id.Value);
+                if (game == null)
+                    return NotFound();
+
+                Input = GameVmMapper.ToAddGameViewModel(game);
             }
 
-            var dto = new GameDTO
-            {
-                Name = Input.Title.Trim(),
-                Description = Input.Description?.Trim(),
-                Category = Input.Category.Trim(),
-                Picture = picture 
-            };
+            return Page();
+        }
 
-            try
+
+        public IActionResult OnPost()
+        {
+            LoadCategoryOptions();
+
+            if (!ModelState.IsValid)
+                return Page();
+
+            var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userIdStr, out var currentUserId) || currentUserId <= 0)
+                return Challenge();
+
+            Input.CreatedByUserId = currentUserId;
+
+            if (Request.Form.Files.Count > 0)
+            {
+                var file = Request.Form.Files[0];
+                if (file.Length > 0)
+                {
+                    using var ms = new MemoryStream();
+                    file.CopyTo(ms);
+                    Input.Picture = ms.ToArray();
+                }
+            }
+
+            if (Exists.Id > 0 && !_gameService.CanEditGame(Exists.Id, currentUserId, User.IsInRole("Admin")))
+                return Forbid();
+
+            if (Exists.Id > 0 && (Input.Picture == null || Input.Picture.Length == 0))
+            {
+                var existingBlob = _gameService.GetImageBlob(Exists.Id);
+                Input.Picture = existingBlob;
+            }
+
+            var dto = GameVmMapper.ToAddGameDTO(Input);
+
+            if (Exists.Id > 0)
+            {
+                dto.Id = Exists.Id;
+                _gameService.EditGame(dto);
+                return RedirectToPage("/Details", new { id = Exists.Id });
+            }
+            else
             {
                 var newId = _gameService.AddGame(dto);
-                return RedirectToPage("/Index", new { id = newId });
+                return RedirectToPage("/Details", new { id = newId });
             }
-            catch (Exception ex)
-            {
-                throw; 
-            }
+        }
+
+
+        private void LoadCategoryOptions()
+        {
+            CategoryOptions = GameList.GameList.All
+                .Select(c => new SelectListItem { Value = c, Text = c })
+                .ToList();
+        }
+
+        public IActionResult OnPostDelete()
+        {
+            if (Exists.Id <= 0)
+                return BadRequest();
+
+            _gameService.DeleteGame(Exists.Id);
+            return RedirectToPage("/Index");
         }
     }
 }

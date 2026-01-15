@@ -1,27 +1,27 @@
 ﻿using DTOs;
-using Presentation.ViewModels;
+using Presentation.ViewModels.Account;
 
 namespace VmMapper
 {
-    public class LoggedUserVmMapper
+    public class RegisteredUserVmMapper
     {
-        public LogedInVm Mappper(UserDTO user)
+        public RegisteredUserVM Mappper(UserDTO user)
         {
-            return new LogedInVm
+            return new RegisteredUserVM
             {
+                Name = user.Name,
                 Email = user.Email,
                 Password = user.password,
-                Admin = user.Admin,
             };
         }
 
-        public UserDTO Mappper(LogedInVm user)
+        public UserDTO Mappper(RegisteredUserVM user)
         {
             return new UserDTO
             {
+                Name = user.Name,
                 Email = user.Email,
                 password = user.Password,
-                Admin = user.Admin,
             };
         }
     }
