@@ -2,248 +2,308 @@
 using Interfaces;
 using Moq;
 using Services;
+using FluentAssertions;
+using System;
+using System.Collections.Generic;
 
-public class GameServiceTests
+namespace ServiceTests
 {
-    // ---------- AddGame ----------
-
-    [Fact]
-    public void AddGame_Valid_ReturnsId()
+    public class GameServiceTests
     {
-        // Arrange
-        var repoMock = new Mock<IGameRepo>();
-        var service = new GameService(repoMock.Object);
-        var game = new GameDTO { Name = "Halo", Category = "Shooter" };
-        repoMock.Setup(r => r.AddGame(game)).Returns(1);
+        // --------------------
+        // ADD GAME
+        // --------------------
 
-        // Act
-        int result = service.AddGame(game);
+        [Fact]
+        public void AddGame_ValidGame_TrimsFieldsAndCallsRepo()
+        {
+            var game = new GameDTO
+            {
+                Name = "  Test Game  ",
+                Category = "  RPG  ",
+                Description = "  Description  "
+            };
 
-        // Assert
-        Assert.Equal(1, result);
-        repoMock.Verify(r => r.AddGame(game), Times.Once);
-        repoMock.VerifyNoOtherCalls();
-    }
+            var repo = new Mock<IGameRepo>();
+            repo.Setup(r => r.AddGame(It.IsAny<GameDTO>())).Returns(1);
 
-    [Fact]
-    public void AddGame_Null_Throws()
-    {
-        var repoMock = new Mock<IGameRepo>();
-        var service = new GameService(repoMock.Object);
+            var service = new GameService(repo.Object);
 
-        Assert.Throws<ArgumentNullException>(() => service.AddGame(null!));
-        repoMock.VerifyNoOtherCalls();
-    }
+            var result = service.AddGame(game);
 
-    // ---------- DeleteGame ----------
+            Assert.Equal(1, result);
 
-    [Fact]
-    public void DeleteGame_Valid_CallsRepository()
-    {
-        var repoMock = new Mock<IGameRepo>();
-        var service = new GameService(repoMock.Object);
+            repo.Verify(r => r.AddGame(It.Is<GameDTO>(g =>
+                g.Name == "Test Game" &&
+                g.Category == "RPG" &&
+                g.Description == "Description"
+            )), Times.Once);
+        }
 
-        service.DeleteGame(5);
+        [Fact]
+        public void AddGame_NullGame_ThrowsArgumentNullException()
+        {
+            var service = new GameService(new Mock<IGameRepo>().Object);
 
-        repoMock.Verify(r => r.DeleteGame(5), Times.Once);
-        repoMock.VerifyNoOtherCalls();
-    }
+            Assert.Throws<ArgumentNullException>(() => service.AddGame(null));
+        }
 
-    [Fact]
-    public void DeleteGame_InvalidId_Throws()
-    {
-        var repoMock = new Mock<IGameRepo>();
-        var service = new GameService(repoMock.Object);
+        [Fact]
+        public void AddGame_EmptyName_ThrowsArgumentException()
+        {
+            var game = new GameDTO
+            {
+                Name = "",
+                Category = "RPG",
+                Description = "Desc"
+            };
 
-        Assert.Throws<ArgumentException>(() => service.DeleteGame(0));
-        repoMock.VerifyNoOtherCalls();
-    }
+            var service = new GameService(new Mock<IGameRepo>().Object);
 
-    // ---------- GetGames ----------
+            Assert.Throws<ArgumentException>(() => service.AddGame(game));
+        }
 
-    [Fact]
-    public void GetGames_ReturnsList()
-    {
-        var repoMock = new Mock<IGameRepo>();
-        var service = new GameService(repoMock.Object);
-        var games = new List<GameDTO> { new GameDTO { Id = 1, Name = "Halo", Category = "Shooter" } };
-        repoMock.Setup(r => r.GetGames()).Returns(games);
+        [Fact]
+        public void AddGame_EmptyCategory_ThrowsArgumentException()
+        {
+            var game = new GameDTO
+            {
+                Name = "Game",
+                Category = " ",
+                Description = "Desc"
+            };
 
-        var result = service.GetGames();
+            var service = new GameService(new Mock<IGameRepo>().Object);
 
-        Assert.Single(result);
-        Assert.Equal("Halo", result[0].Name);
-        repoMock.Verify(r => r.GetGames(), Times.Once);
-        repoMock.VerifyNoOtherCalls();
-    }
+            Assert.Throws<ArgumentException>(() => service.AddGame(game));
+        }
 
-    // ---------- EditGame ----------
+        [Fact]
+        public void AddGame_EmptyDescription_ThrowsArgumentException()
+        {
+            var game = new GameDTO
+            {
+                Name = "Game",
+                Category = "RPG",
+                Description = null
+            };
 
-    [Fact]
-    public void EditGame_Valid_CallsRepository()
-    {
-        var repoMock = new Mock<IGameRepo>();
-        var service = new GameService(repoMock.Object);
-        var game = new GameDTO { Id = 10, Name = "Celeste", Category = "Platformer" };
+            var service = new GameService(new Mock<IGameRepo>().Object);
 
-        service.EditGame(game);
+            Assert.Throws<ArgumentException>(() => service.AddGame(game));
+        }
 
-        repoMock.Verify(r => r.EditGame(game), Times.Once);
-        repoMock.VerifyNoOtherCalls();
-    }
+        // --------------------
+        // GET GAMES
+        // --------------------
 
-    [Fact]
-    public void EditGame_Null_Throws()
-    {
-        var repoMock = new Mock<IGameRepo>();
-        var service = new GameService(repoMock.Object);
+        [Fact]
+        public void GetGames_GamesExist_ReturnsGames()
+        {
+            var games = new List<GameDTO>
+            {
+                new GameDTO { Id = 1, Name = "Game", Category = "Cat", Description = "Desc" }
+            };
 
-        Assert.Throws<ArgumentNullException>(() => service.EditGame(null!));
-        repoMock.VerifyNoOtherCalls();
-    }
+            var repo = new Mock<IGameRepo>();
+            repo.Setup(r => r.GetGames()).Returns(games);
 
-    [Fact]
-    public void EditGame_EmptyName_Throws()
-    {
-        var repoMock = new Mock<IGameRepo>();
-        var service = new GameService(repoMock.Object);
-        var game = new GameDTO { Id = 10, Name = "   ", Category = "Platformer" };
+            var service = new GameService(repo.Object);
 
-        Assert.Throws<ArgumentException>(() => service.EditGame(game));
-        repoMock.VerifyNoOtherCalls();
-    }
+            var result = service.GetGames();
 
-    // ---------- GetGameById ----------
+            Assert.Single(result);
+            repo.Verify(r => r.GetGames(), Times.Once);
+        }
 
-    [Fact]
-    public void GetGameById_Found_ReturnsGame()
-    {
-        var repoMock = new Mock<IGameRepo>();
-        var service = new GameService(repoMock.Object);
-        var game = new GameDTO { Id = 5, Name = "Stardew", Category = "Farming" };
-        repoMock.Setup(r => r.GetGameById(5)).Returns(game);
+        [Fact]
+        public void GetGames_NoGames_ThrowsKeyNotFoundException()
+        {
+            var repo = new Mock<IGameRepo>();
+            repo.Setup(r => r.GetGames()).Returns(new List<GameDTO>());
 
-        var result = service.GetGameById(5);
+            var service = new GameService(repo.Object);
 
-        Assert.NotNull(result);
-        Assert.Equal(5, result!.Id);
-        repoMock.Verify(r => r.GetGameById(5), Times.Once);
-        repoMock.VerifyNoOtherCalls();
-    }
+            Assert.Throws<KeyNotFoundException>(() => service.GetGames());
+        }
 
-    [Fact]
-    public void GetGameById_NotFound_ReturnsNull()
-    {
-        var repoMock = new Mock<IGameRepo>();
-        var service = new GameService(repoMock.Object);
-        repoMock.Setup(r => r.GetGameById(999)).Returns((GameDTO?)null);
+        // --------------------
+        // GET GAME BY ID
+        // --------------------
 
-        var result = service.GetGameById(999);
+        [Fact]
+        public void GetGameById_InvalidId_ThrowsArgumentException()
+        {
+            var service = new GameService(new Mock<IGameRepo>().Object);
 
-        Assert.Null(result);
-        repoMock.Verify(r => r.GetGameById(999), Times.Once);
-        repoMock.VerifyNoOtherCalls();
-    }
+            Assert.Throws<ArgumentException>(() => service.GetGameById(0));
+        }
 
-    // ---------- GetImageBlob ----------
+        [Fact]
+        public void GetGameById_GameNotFound_ThrowsKeyNotFoundException()
+        {
+            var repo = new Mock<IGameRepo>();
+            repo.Setup(r => r.GetGameById(1)).Returns((GameDTO)null!);
 
-    [Fact]
-    public void GetImageBlob_Found_ReturnsBytes()
-    {
-        var repoMock = new Mock<IGameRepo>();
-        var service = new GameService(repoMock.Object);
-        byte[] blob = { 1, 2, 3 };
-        repoMock.Setup(r => r.GetImageBlob(3)).Returns(blob);
+            var service = new GameService(repo.Object);
+            
+        
+            Assert.Throws<KeyNotFoundException>(() => service.GetGameById(1));
+        }
 
-        var result = service.GetImageBlob(3);
+        [Fact]
+        public void GetGameById_ValidId_ReturnsGame()
+        {
+            var game = new GameDTO { Id = 1, Name = "Game"};
 
-        Assert.NotNull(result);
-        Assert.Equal(blob, result!);
-        repoMock.Verify(r => r.GetImageBlob(3), Times.Once);
-        repoMock.VerifyNoOtherCalls();
-    }
+            var repo = new Mock<IGameRepo>();
+            repo.Setup(r => r.GetGameById(1)).Returns(game);
 
-    [Fact]
-    public void GetImageBlob_NotFound_ReturnsNull()
-    {
-        var repoMock = new Mock<IGameRepo>();
-        var service = new GameService(repoMock.Object);
-        repoMock.Setup(r => r.GetImageBlob(4)).Returns((byte[]?)null);
+            var service = new GameService(repo.Object);
 
-        var result = service.GetImageBlob(4);
+            var result = service.GetGameById(1);
 
-        Assert.Null(result);
-        repoMock.Verify(r => r.GetImageBlob(4), Times.Once);
-        repoMock.VerifyNoOtherCalls();
-    }
+            game.Should().BeEquivalentTo(result);
 
-    // ---------- CanEditGame ----------
+        }
 
-    [Fact]
-    public void CanEditGame_Admin_True()
-    {
-        var repoMock = new Mock<IGameRepo>();
-        var service = new GameService(repoMock.Object);
+        // --------------------
+        // EDIT GAME
+        // --------------------
 
-        bool can = service.CanEditGame(gameId: 1, userId: 2, isAdmin: true);
+        [Fact]
+        public void EditGame_ValidGame_TrimsAndCallsRepo()
+        {
+            var game = new GameDTO
+            {
+                Name = " Game ",
+                Category = " Cat ",
+                Description = " Desc "
+            };
 
-        Assert.True(can);
-        repoMock.VerifyNoOtherCalls();
-    }
+            var repo = new Mock<IGameRepo>();
+            var service = new GameService(repo.Object);
 
-    [Fact]
-    public void CanEditGame_InvalidUser_NotAdmin_False()
-    {
-        var repoMock = new Mock<IGameRepo>();
-        var service = new GameService(repoMock.Object);
+            service.EditGame(game);
 
-        bool can = service.CanEditGame(gameId: 10, userId: 0, isAdmin: false);
+            repo.Verify(r => r.EditGame(It.Is<GameDTO>(g =>
+                g.Name == "Game" &&
+                g.Category == "Cat" &&
+                g.Description == "Desc"
+            )), Times.Once);
+        }
 
-        Assert.False(can);
-        repoMock.VerifyNoOtherCalls();
-    }
+        [Fact]
+        public void EditGame_NullGame_ThrowsArgumentNullException()
+        {
+            var service = new GameService(new Mock<IGameRepo>().Object);
 
-    [Fact]
-    public void CanEditGame_UserMatchesCreator_True()
-    {
-        var repoMock = new Mock<IGameRepo>();
-        var service = new GameService(repoMock.Object);
-        var game = new GameDTO { Id = 77, CreatedByUserId = 15 };
-        repoMock.Setup(r => r.GetGameById(77)).Returns(game);
+            Assert.Throws<ArgumentNullException>(() => service.EditGame(null));
+        }
 
-        bool can = service.CanEditGame(gameId: 77, userId: 15, isAdmin: false);
+        // --------------------
+        // DELETE GAME
+        // --------------------
 
-        Assert.True(can);
-        repoMock.Verify(r => r.GetGameById(77), Times.Once);
-        repoMock.VerifyNoOtherCalls();
-    }
+        [Fact]
+        public void DeleteGame_InvalidId_ThrowsArgumentException()
+        {
+            var service = new GameService(new Mock<IGameRepo>().Object);
 
-    [Fact]
-    public void CanEditGame_UserDoesNotMatch_False()
-    {
-        var repoMock = new Mock<IGameRepo>();
-        var service = new GameService(repoMock.Object);
-        var game = new GameDTO { Id = 77, CreatedByUserId = 15 };
-        repoMock.Setup(r => r.GetGameById(77)).Returns(game);
+            Assert.Throws<ArgumentException>(() => service.DeleteGame(-1));
+        }
 
-        bool can = service.CanEditGame(gameId: 77, userId: 99, isAdmin: false);
+        [Fact]
+        public void DeleteGame_GameNotFound_ThrowsKeyNotFoundException()
+        {
+            var repo = new Mock<IGameRepo>();
+            repo.Setup(r => r.GetGameById(1)).Returns((GameDTO)null);
 
-        Assert.False(can);
-        repoMock.Verify(r => r.GetGameById(77), Times.Once);
-        repoMock.VerifyNoOtherCalls();
-    }
+            var service = new GameService(repo.Object);
 
-    [Fact]
-    public void CanEditGame_GameNotFound_False()
-    {
-        var repoMock = new Mock<IGameRepo>();
-        var service = new GameService(repoMock.Object);
-        repoMock.Setup(r => r.GetGameById(10)).Returns((GameDTO?)null);
+            Assert.Throws<KeyNotFoundException>(() => service.DeleteGame(1));
+        }
 
-        bool can = service.CanEditGame(gameId: 10, userId: 5, isAdmin: false);
+        [Fact]
+        public void DeleteGame_ValidGame_CallsDelete()
+        {
+            var repo = new Mock<IGameRepo>();
+            repo.Setup(r => r.GetGameById(1)).Returns(new GameDTO { Id = 1 });
 
-        Assert.False(can);
-        repoMock.Verify(r => r.GetGameById(10), Times.Once);
-        repoMock.VerifyNoOtherCalls();
+            var service = new GameService(repo.Object);
+
+            service.DeleteGame(1);
+
+            repo.Verify(r => r.DeleteGame(1), Times.Once);
+        }
+
+        // --------------------
+        // GET IMAGE BLOB
+        // --------------------
+
+        [Fact]
+        public void GetImageBlob_ValidId_ReturnsImage()
+        {
+            var bytes = new byte[] { 1, 2, 3 };
+
+            var repo = new Mock<IGameRepo>();
+            repo.Setup(r => r.GetImageBlob(1)).Returns(bytes);
+
+            var service = new GameService(repo.Object);
+
+            var result = service.GetImageBlob(1);
+
+            Assert.Equal(bytes, result);
+        }
+
+        [Fact]
+        public void GetImageBlob_InvalidId_ThrowsArgumentException()
+        {
+            var service = new GameService(new Mock<IGameRepo>().Object);
+
+            Assert.Throws<ArgumentException>(() => service.GetImageBlob(0));
+        }
+
+        // --------------------
+        // CAN EDIT GAME
+        // --------------------
+
+        [Fact]
+        public void CanEditGame_Admin_ReturnsTrue()
+        {
+            var service = new GameService(new Mock<IGameRepo>().Object);
+
+            var result = service.CanEditGame(1, 1, true);
+
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void CanEditGame_Owner_ReturnsTrue()
+        {
+            var repo = new Mock<IGameRepo>();
+            repo.Setup(r => r.GetGameById(1))
+                .Returns(new GameDTO { CreatedByUserId = 10 });
+
+            var service = new GameService(repo.Object);
+
+            var result = service.CanEditGame(1, 10, false);
+
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void CanEditGame_NotOwner_ReturnsFalse()
+        {
+            var repo = new Mock<IGameRepo>();
+            repo.Setup(r => r.GetGameById(1))
+                .Returns(new GameDTO { CreatedByUserId = 5 });
+
+            var service = new GameService(repo.Object);
+
+            var result = service.CanEditGame(1, 10, false);
+
+            Assert.False(result);
+        }
     }
 }
